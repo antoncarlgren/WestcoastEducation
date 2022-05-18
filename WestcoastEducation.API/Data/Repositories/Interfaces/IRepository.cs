@@ -3,10 +3,10 @@
 public interface IRepository<TViewModel, TPostViewModel, TPatchViewModel>
 {
     Task<List<TViewModel>> GetAllAsync();
-    Task<TViewModel?> GetByIdAsync(int id);
+    Task<TViewModel?> GetByIdAsync(string id);
     Task AddAsync(TPostViewModel model);
-    Task UpdateAsync(int id, TPostViewModel model);
-    Task UpdateAsync(int id, TPatchViewModel model);
-    Task DeleteAsync(int id);
+    Task UpdateAsync(string id, TPostViewModel model);
+    Task UpdateAsync(string id, TPatchViewModel model);
+    Task DeleteAsync(string id);
     Task<bool> SaveAsync();
 }

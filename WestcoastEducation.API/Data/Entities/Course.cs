@@ -6,7 +6,7 @@ namespace WestcoastEducation.API.Data.Entities;
 public class Course : IEntity
 {
     [Key]
-    public int? Id { get; set; }
+    public string? Id { get; set; }
     
     public int? CourseNo { get; set; }
     public string? Title { get; set; }
@@ -16,11 +16,11 @@ public class Course : IEntity
     
     [ForeignKey("CategoryId")]
     public Category? Category { get; set; }
-    public int? CategoryId { get; set; }
+    public string? CategoryId { get; set; }
     
     [ForeignKey("TeacherId")]
     public Teacher? Teacher { get; set; }
-    public int? TeacherId { get; set; }
+    public string? TeacherId { get; set; }
     
     public ICollection<Student>? Students { get; set; }
 }

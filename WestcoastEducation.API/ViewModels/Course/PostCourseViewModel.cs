@@ -7,6 +7,6 @@ public class PostCourseViewModel
     public string? Details { get; set; }
     public string? Description { get; set; }
     public string? Length { get; set; }
-    public int? CategoryId { get; set; }
-    public int? TeacherId { get; set; }
+    public string? CategoryId { get; set; }
+    public string? TeacherId { get; set; }
 }

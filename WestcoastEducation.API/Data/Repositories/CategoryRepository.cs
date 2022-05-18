@@ -9,7 +9,7 @@ namespace WestcoastEducation.API.Data.Repositories;
 
 public class CategoryRepository 
     : RepositoryBase<Category, CategoryViewModel, PostCategoryViewModel, PatchCategoryViewModel>, 
-        ICategoryRepository
+    ICategoryRepository
 {
     public CategoryRepository(ApplicationContext context, IMapper mapper) 
         : base(context, mapper)
@@ -22,13 +22,13 @@ public class CategoryRepository
         await Context.Categories.AddAsync(Mapper.Map<Category>(model));
     }
 
-    public override async Task UpdateAsync(int id, PostCategoryViewModel model)
+    public override async Task UpdateAsync(string id, PostCategoryViewModel model)
     {
         var category = await Context.Categories.FindAsync(id);
 
         if (category is null)
         {
-            throw new Exception($"Could not find {nameof(Category)} with id {id}.");
+            throw new Exception($"Could not find {nameof(Category).ToLower()} with id {id}.");
         }
 
         category.Name = model.Name;
@@ -36,18 +36,13 @@ public class CategoryRepository
         Context.Categories.Update(category);
     }
 
-    public override async Task UpdateAsync(int id, PatchCategoryViewModel model)
+    public override async Task UpdateAsync(string id, PatchCategoryViewModel model)
     {
-        if (await ExistsByNameAsync(model.Name))
-        {
-            throw new DuplicateNameException(model.Name);
-        }
-        
         var category = await Context.Categories.FindAsync(id);
 
         if (category is null)
         {
-            throw new Exception($"Could not find {nameof(Category)} with id {id}.");
+            throw new Exception($"Could not find {nameof(Category).ToLower()} with id {id}.");
         }
 
         category.Name = model.Name;
