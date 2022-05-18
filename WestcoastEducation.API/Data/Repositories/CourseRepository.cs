@@ -12,9 +12,7 @@ public class CourseRepository
     ICourseRepository
 {
     public CourseRepository(ApplicationContext context, IMapper mapper)
-        : base(context, mapper)
-    {
-    }
+        : base(context, mapper) { }
 
     public override async Task AddAsync(PostCourseViewModel model)
     {

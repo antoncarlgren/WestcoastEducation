@@ -5,5 +5,7 @@ namespace WestcoastEducation.API.Data.Entities;
 
 public class Student : IdentityUser, IEntity
 {
-    public ICollection<Course> Courses { get; set; }
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
+    public ICollection<StudentCourse> StudentCourses { get; set; }
 }

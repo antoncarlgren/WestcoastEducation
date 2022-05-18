@@ -5,6 +5,8 @@ namespace WestcoastEducation.API.Data.Entities;
 
 public class Teacher : IdentityUser, IEntity
 {
-    public ICollection<Category>? Competencies { get; set; }
-    public ICollection<Course> Courses { get; set; }
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
+    public ICollection<TeacherCompetency>? TeacherCompetencies { get; set; }
+    public ICollection<Course>? Courses { get; set; }
 }

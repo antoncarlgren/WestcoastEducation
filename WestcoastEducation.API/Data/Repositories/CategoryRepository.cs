@@ -12,10 +12,7 @@ public class CategoryRepository
     ICategoryRepository
 {
     public CategoryRepository(ApplicationContext context, IMapper mapper) 
-        : base(context, mapper)
-    {
-        
-    }
+        : base(context, mapper) { }
 
     public override async Task AddAsync(PostCategoryViewModel model)
     {

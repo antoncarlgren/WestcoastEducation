@@ -9,9 +9,8 @@ public class StudentRepository
     : RepositoryBase<Student, StudentViewModel, PostStudentViewModel, PatchStudentViewModel>,
     IStudentRepository
 {
-    public StudentRepository(ApplicationContext context, IMapper mapper) : base(context, mapper)
-    {
-    }
+    public StudentRepository(ApplicationContext context, IMapper mapper) 
+        : base(context, mapper) { }
 
     public override async Task AddAsync(PostStudentViewModel model)
     {
