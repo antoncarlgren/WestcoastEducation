@@ -3,13 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using WestcoastEducation.API.Data;
 using WestcoastEducation.API.Data.Repositories;
 using WestcoastEducation.API.Data.Repositories.Interfaces;
+using WestcoastEducation.API.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-
 builder.Services.AddDbContext<ApplicationContext>(options => 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ApplicationDatabase")));
+    options.UseSqlite(builder.Configuration.GetConnectionString("ApplicationDatabase")));
+
+builder.Services.AddControllers();
 
 builder.Services
     .AddScoped<ICategoryRepository, CategoryRepository>()
@@ -17,7 +18,7 @@ builder.Services
     .AddScoped<IStudentRepository, StudentRepository>()
     .AddScoped<ITeacherRepository, TeacherRepository>();
 
-
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 
 var app = builder.Build();
 

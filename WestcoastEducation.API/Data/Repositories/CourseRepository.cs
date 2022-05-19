@@ -46,7 +46,7 @@ public class CourseRepository
 
         if (course is null)
         {
-            throw new Exception($"Could not find {nameof(Course).ToLower()}");
+            throw new Exception($"Could not find {nameof(course).ToLower()}");
         }
 
         var teacher = await Context.Teachers
@@ -78,7 +78,7 @@ public class CourseRepository
 
         if (course is null)
         {
-            throw new Exception($"Could not find {nameof(Course).ToLower()}");
+            throw new Exception($"Could not find {nameof(course).ToLower()}");
         }
 
         Context.Courses.Update(course);

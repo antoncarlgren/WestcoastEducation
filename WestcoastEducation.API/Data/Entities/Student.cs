@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Identity;
 
 namespace WestcoastEducation.API.Data.Entities;
 
-public class Student : IdentityUser, IEntity
+public class Student : IEntity
 {
-    public string? FirstName { get; set; }
-    public string? LastName { get; set; }
+    public string? Id { get; set; }
+
+    public ApplicationUser ApplicationUser { get; set; }
+    public string? ApplicationUserId { get; set; }
+    
     public ICollection<StudentCourse> StudentCourses { get; set; }
 }
