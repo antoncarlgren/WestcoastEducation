@@ -8,7 +8,8 @@ public class ApplicationContext : IdentityDbContext<ApplicationUser>
 {
     public ApplicationContext(DbContextOptions options)
         : base(options) { }
-    
+
+    public DbSet<Address> Addresses => Set<Address>();
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Course> Courses => Set<Course>();
     public DbSet<Student> Students => Set<Student>();
@@ -25,13 +26,11 @@ public class ApplicationContext : IdentityDbContext<ApplicationUser>
             
             e.HasOne(tc => tc.Teacher)
                 .WithMany(t => t.TeacherCompetencies)
-                .HasForeignKey(tc => tc.TeacherId)
-                .IsRequired();
+                .HasForeignKey(tc => tc.TeacherId);
 
             e.HasOne(tc => tc.Category)
                 .WithMany(c => c.TeacherCompetencies)
-                .HasForeignKey(tc => tc.CategoryId)
-                .IsRequired();
+                .HasForeignKey(tc => tc.CategoryId);
         });
         
         builder.Entity<StudentCourse>(e =>
@@ -40,28 +39,49 @@ public class ApplicationContext : IdentityDbContext<ApplicationUser>
 
             e.HasOne(sc => sc.Student)
                 .WithMany(s => s.StudentCourses)
-                .HasForeignKey(sc => sc.StudentId)
-                .IsRequired();
+                .HasForeignKey(sc => sc.StudentId);
 
             e.HasOne(sc => sc.Course)
                 .WithMany(c => c.StudentCourses)
-                .HasForeignKey(sc => sc.CourseId)
-                .IsRequired();
+                .HasForeignKey(sc => sc.CourseId);
         });
 
         builder.Entity<Course>(e =>
         {
+            e.HasIndex(c => c.CourseNo)
+                .IsUnique();
+            
             e.HasOne(c => c.Category)
                 .WithMany(c => c.Courses)
-                .HasForeignKey(c => c.CategoryId)
-                .IsRequired();
+                .HasForeignKey(c => c.CategoryId);
 
             e.HasOne(c => c.Teacher)
                 .WithMany(t => t.Courses)
-                .HasForeignKey(c => c.TeacherId)
-                .IsRequired();
+                .HasForeignKey(c => c.TeacherId);
+        });
+
+        builder.Entity<ApplicationUser>(e =>
+        {
+            e.HasOne(au => au.Address)
+                .WithMany(a => a.ApplicationUsers)
+                .HasForeignKey(au => au.AddressId);
         });
         
+        builder.Entity<Teacher>(e =>
+        {
+            e.HasOne(t => t.ApplicationUser)
+                .WithOne()
+                .HasForeignKey<Teacher>(t => t.ApplicationUserId);
+            
+        });
+
+        builder.Entity<Student>(e =>
+        {
+            e.HasOne(t => t.ApplicationUser)
+                .WithOne()
+                .HasForeignKey<Student>(s => s.ApplicationUserId);
+        });
+
         base.OnModelCreating(builder);
     }
 }

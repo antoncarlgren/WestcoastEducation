@@ -14,7 +14,7 @@ public class StudentRepository
 
     public override async Task AddAsync(PostStudentViewModel model)
     {
-        throw new NotImplementedException();
+        
     }
 
     public override async Task UpdateAsync(string id, PostStudentViewModel model)

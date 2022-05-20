@@ -1,9 +1,9 @@
-﻿using System.Data;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using WestcoastEducation.API.Data.Entities;
 using WestcoastEducation.API.Data.Repositories.Interfaces;
 using WestcoastEducation.API.ViewModels.Category;
+using WestcoastEducation.API.ViewModels.Course;
 
 namespace WestcoastEducation.API.Data.Repositories;
 
@@ -14,6 +14,26 @@ public class CategoryRepository
     public CategoryRepository(ApplicationContext context, IMapper mapper) 
         : base(context, mapper) { }
 
+    public async Task<List<CategoryWithCoursesViewModel>> GetCategoriesWithCourses()
+    {
+        return await Context.Categories
+            .Include(e => e.Courses)
+            .Select(e => new CategoryWithCoursesViewModel
+            {
+                CategoryId = e.Id,
+                CategoryName = e.Name,
+                Courses = e.Courses!
+                    .Select(c => new CourseOverviewViewModel
+                    {
+                        Title = c.Title,
+                        CourseNo = c.CourseNo,
+                        Length = c.Length
+                    })
+                    .ToList()
+            })
+            .ToListAsync();
+    }
+    
     public override async Task AddAsync(PostCategoryViewModel model)
     {
         await Context.Categories.AddAsync(Mapper.Map<Category>(model));

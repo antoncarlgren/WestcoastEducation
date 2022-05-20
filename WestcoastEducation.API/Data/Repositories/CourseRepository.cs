@@ -36,8 +36,8 @@ public class CourseRepository
         
         courseToAdd.Category = category
             ?? throw new Exception($"No {nameof(category).ToLower()} with id {model.CategoryId} could be found.");
-        
-        
+
+        await Context.Courses.AddAsync(courseToAdd);
     }
 
     public override async Task UpdateAsync(string id, PostCourseViewModel model)

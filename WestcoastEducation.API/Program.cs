@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WestcoastEducation.API.Data;
@@ -8,9 +9,15 @@ using WestcoastEducation.API.Helpers;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationContext>(options => 
-    options.UseSqlite(builder.Configuration.GetConnectionString("ApplicationDatabase")));
+    options.UseSqlite(builder.Configuration.GetConnectionString("Sqlite")));
 
-builder.Services.AddControllers();
+// builder.Services.AddDbContext<ApplicationContext>(options =>
+//     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
+
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(options =>
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services
     .AddScoped<ICategoryRepository, CategoryRepository>()
