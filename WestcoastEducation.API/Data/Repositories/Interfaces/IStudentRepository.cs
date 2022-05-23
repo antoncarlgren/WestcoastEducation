@@ -5,5 +5,6 @@ namespace WestcoastEducation.API.Data.Repositories.Interfaces;
 public interface IStudentRepository
     : IRepository<StudentViewModel, PostStudentViewModel, PatchStudentViewModel>
 {
-    
+    Task AddCourse(StudentCourseViewModel model);
+    Task RemoveCourse(StudentCourseViewModel model);
 }

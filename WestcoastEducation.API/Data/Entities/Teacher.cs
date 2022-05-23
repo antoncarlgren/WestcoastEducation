@@ -8,9 +8,9 @@ public class Teacher : IEntity
     public string? Id { get; set; }
     
     
-    public ApplicationUser ApplicationUser { get; set; }
+    public ApplicationUser? ApplicationUser { get; set; }
     public string? ApplicationUserId { get; set; }
-    
-    public ICollection<TeacherCompetency>? TeacherCompetencies { get; set; }
-    public ICollection<Course>? Courses { get; set; }
+
+    public ICollection<TeacherCompetency>? TeacherCompetencies { get; set; } = new List<TeacherCompetency>();
+    public ICollection<Course>? Courses { get; set; } = new List<Course>();
 }

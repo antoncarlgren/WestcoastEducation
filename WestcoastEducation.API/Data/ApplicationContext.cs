@@ -8,8 +8,7 @@ public class ApplicationContext : IdentityDbContext<ApplicationUser>
 {
     public ApplicationContext(DbContextOptions options)
         : base(options) { }
-
-    public DbSet<Address> Addresses => Set<Address>();
+    
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Course> Courses => Set<Course>();
     public DbSet<Student> Students => Set<Student>();
@@ -60,13 +59,6 @@ public class ApplicationContext : IdentityDbContext<ApplicationUser>
                 .HasForeignKey(c => c.TeacherId);
         });
 
-        builder.Entity<ApplicationUser>(e =>
-        {
-            e.HasOne(au => au.Address)
-                .WithMany(a => a.ApplicationUsers)
-                .HasForeignKey(au => au.AddressId);
-        });
-        
         builder.Entity<Teacher>(e =>
         {
             e.HasOne(t => t.ApplicationUser)

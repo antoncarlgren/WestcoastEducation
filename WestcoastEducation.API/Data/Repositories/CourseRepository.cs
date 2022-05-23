@@ -1,8 +1,10 @@
 ﻿using System.Data;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using WestcoastEducation.API.Data.Entities;
 using WestcoastEducation.API.Data.Repositories.Interfaces;
+using WestcoastEducation.API.ViewModels.Category;
 using WestcoastEducation.API.ViewModels.Course;
 
 namespace WestcoastEducation.API.Data.Repositories;
@@ -14,6 +16,14 @@ public class CourseRepository
     public CourseRepository(ApplicationContext context, IMapper mapper)
         : base(context, mapper) { }
 
+    public async Task<List<CourseOverviewViewModel>> GetAllCourseOverviews()
+    {
+        return await Context
+            .Courses
+            .ProjectTo<CourseOverviewViewModel>(Mapper.ConfigurationProvider)
+            .ToListAsync();
+    }
+    
     public override async Task AddAsync(PostCourseViewModel model)
     {
         if (await ExistsByCourseNoAsync((int)model.CourseNo!))
@@ -46,7 +56,7 @@ public class CourseRepository
 
         if (course is null)
         {
-            throw new Exception($"Could not find {nameof(course).ToLower()}");
+            throw new Exception($"Could not find {nameof(course).ToLower()} with id {id}.");
         }
 
         var teacher = await Context.Teachers
@@ -71,7 +81,7 @@ public class CourseRepository
         
         Context.Courses.Update(course);
     }
-
+    
     public override async Task UpdateAsync(string id, PatchCourseViewModel model)
     {
         var course = await Context.Courses.FindAsync(id);
@@ -80,7 +90,27 @@ public class CourseRepository
         {
             throw new Exception($"Could not find {nameof(course).ToLower()}");
         }
+        
+        var teacher = await Context.Teachers
+            .Include(e => e.Courses)
+            .FirstOrDefaultAsync(e => e.Id == model.TeacherId);
 
+        var category = await Context.Categories
+            .Include(e => e.Courses)
+            .FirstOrDefaultAsync(e => e.Id == model.CategoryId);
+        
+        course.CourseNo = model.CourseNo;
+        course.Title = model.Title;
+        course.Details = model.Details;
+        course.Description = model.Description;
+        course.Length = model.Length;
+
+        course.Teacher = teacher
+                         ?? throw new Exception($"No {nameof(teacher).ToLower()} with id {model.TeacherId} could be found.");
+        
+        course.Category = category
+                          ?? throw new Exception($"No {nameof(category).ToLower()} with id {model.CategoryId} could be found.");
+        
         Context.Courses.Update(course);
     }
 

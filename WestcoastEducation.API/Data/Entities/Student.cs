@@ -7,8 +7,8 @@ public class Student : IEntity
 {
     public string? Id { get; set; }
 
-    public ApplicationUser ApplicationUser { get; set; }
+    public ApplicationUser? ApplicationUser { get; set; }
     public string? ApplicationUserId { get; set; }
-    
-    public ICollection<StudentCourse> StudentCourses { get; set; }
+
+    public ICollection<StudentCourse>? StudentCourses { get; set; } = new List<StudentCourse>();
 }

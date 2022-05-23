@@ -8,11 +8,11 @@ using WestcoastEducation.API.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<ApplicationContext>(options => 
-    options.UseSqlite(builder.Configuration.GetConnectionString("Sqlite")));
+// builder.Services.AddDbContext<ApplicationContext>(options => 
+//     options.UseSqlite(builder.Configuration.GetConnectionString("Sqlite")));
 
-// builder.Services.AddDbContext<ApplicationContext>(options =>
-//     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
+builder.Services.AddDbContext<ApplicationContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
 
 builder.Services
     .AddControllers()

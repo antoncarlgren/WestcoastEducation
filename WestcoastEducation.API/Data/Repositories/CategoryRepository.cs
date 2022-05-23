@@ -66,10 +66,4 @@ public class CategoryRepository
 
         Context.Categories.Update(category);
     }
-
-    private async Task<bool> ExistsByNameAsync(string name)
-    {
-        return await Context.Categories
-            .AnyAsync(e => string.Equals(e.Name, name, StringComparison.CurrentCultureIgnoreCase));
-    }
 }

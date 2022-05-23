@@ -19,7 +19,7 @@ public abstract class RepositoryBase<TEntity, TViewModel, TPostViewModel, TPatch
         Mapper = mapper;
     }
     
-    public async Task<List<TViewModel>> GetAllAsync()
+    public virtual async Task<List<TViewModel>> GetAllAsync()
     {
         return await Context
             .Set<TEntity>()
@@ -27,7 +27,7 @@ public abstract class RepositoryBase<TEntity, TViewModel, TPostViewModel, TPatch
             .ToListAsync();
     }
 
-    public async Task<TViewModel?> GetByIdAsync(string id)
+    public virtual async Task<TViewModel?> GetByIdAsync(string id)
     {
         return await Context
             .Set<TEntity>()
@@ -42,7 +42,7 @@ public abstract class RepositoryBase<TEntity, TViewModel, TPostViewModel, TPatch
     
     public abstract Task UpdateAsync(string id, TPatchViewModel model);
 
-    public async Task DeleteAsync(string id)
+    public virtual async Task DeleteAsync(string id)
     {
         var entity = await Context
             .Set<TEntity>()
