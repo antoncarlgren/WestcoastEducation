@@ -1,12 +1,13 @@
-﻿using WestcoastEducation.API.ViewModels.Teacher;
+﻿using WestcoastEducation.API.ViewModels.Authorization;
+using WestcoastEducation.API.ViewModels.Teacher;
 
 namespace WestcoastEducation.API.Data.Repositories.Interfaces;
 
 public interface ITeacherRepository
-    : IRepository<TeacherViewModel, PostTeacherViewModel, PatchTeacherViewModel>
+    : IRepository<TeacherViewModel, RegisterUserViewModel, PatchTeacherViewModel>
 {
-    Task AddCompetency(TeacherCompetencyViewModel model);
-    Task RemoveCompetency(TeacherCompetencyViewModel model);
-    Task AddCourse(TeacherCourseViewModel model);
-    Task RemoveCourse(TeacherCourseViewModel model);
+    Task AddCompetencyAsync(TeacherCompetencyViewModel model);
+    Task RemoveCompetencyAsync(TeacherCompetencyViewModel model);
+    Task AddCourseAsync(TeacherCourseViewModel model);
+    Task RemoveCourseAsync(TeacherCourseViewModel model);
 }

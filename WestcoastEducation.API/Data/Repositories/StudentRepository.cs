@@ -3,25 +3,26 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
 using WestcoastEducation.API.Data.Entities;
 using WestcoastEducation.API.Data.Repositories.Interfaces;
+using WestcoastEducation.API.ViewModels.Authorization;
 using WestcoastEducation.API.ViewModels.Student;
 
 namespace WestcoastEducation.API.Data.Repositories;
 
 public class StudentRepository 
-    : RepositoryBase<Student, StudentViewModel, PostStudentViewModel, PatchStudentViewModel>,
+    : RepositoryBase<Student, StudentViewModel, RegisterUserViewModel, PatchStudentViewModel>,
     IStudentRepository
 {
     public StudentRepository(ApplicationContext context, IMapper mapper) 
         : base(context, mapper) { }
 
-    public override async Task AddAsync(PostStudentViewModel model)
+    public override async Task AddAsync(RegisterUserViewModel model)
     {
         var studentToAdd = Mapper.Map<Student>(model);
 
         await Context.Students.AddAsync(studentToAdd);
     }
 
-    public override async Task UpdateAsync(string id, PostStudentViewModel model)
+    public override async Task UpdateAsync(string id, RegisterUserViewModel model)
     {
         var student = await Context.Students
             .Include(e => e.ApplicationUser)
@@ -61,7 +62,7 @@ public class StudentRepository
         Context.Students.Update(student);
     }
 
-    public async Task AddCourse(StudentCourseViewModel model)
+    public async Task AddCourseAsync(StudentCourseViewModel model)
     {
         var student = await Context.Students
             .Include(e => e.StudentCourses)!
@@ -100,7 +101,7 @@ public class StudentRepository
         }
     }
 
-    public async Task RemoveCourse(StudentCourseViewModel model)
+    public async Task RemoveCourseAsync(StudentCourseViewModel model)
     {
         var student = await Context.Students
             .Include(e => e.StudentCourses)!
@@ -130,7 +131,25 @@ public class StudentRepository
             Context.StudentCourses.Remove(studentCourse!);
         }
     }
+    
+    public override async Task DeleteAsync(string id)
+    {
+        var student = await Context.Students.FindAsync(id);
 
+        if (student is null)
+        {
+            throw new Exception($"No {nameof(Student).ToLower()} with id {id} could be found.");
+        }
+
+        var relatedStudentCourses = Context.StudentCourses
+            .Where(e => e.StudentId == student.Id);
+        
+        Context.StudentCourses
+            .RemoveRange(relatedStudentCourses);
+
+        Context.Students.Remove(student);
+    }
+    
     private static bool IsEnrolled(Student student, string courseId)
     {
         return student.StudentCourses!

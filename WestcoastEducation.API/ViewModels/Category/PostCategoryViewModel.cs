@@ -2,5 +2,5 @@
 
 public class PostCategoryViewModel
 {
-    public string? Name { get; }
+    public string? Name { get; set;  }
 }

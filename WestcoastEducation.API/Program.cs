@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WestcoastEducation.API.Data;
+using WestcoastEducation.API.Data.Entities;
 using WestcoastEducation.API.Data.Repositories;
 using WestcoastEducation.API.Data.Repositories.Interfaces;
 using WestcoastEducation.API.Helpers;
@@ -15,9 +16,17 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
 
 builder.Services
+    .AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationContext>();
+
+builder.Services.AddAuthentication();
+
+builder.Services
     .AddControllers()
     .AddJsonOptions(options =>
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
+builder.Services.AddSwaggerGen();
 
 builder.Services
     .AddScoped<ICategoryRepository, CategoryRepository>()
@@ -31,12 +40,11 @@ var app = builder.Build();
 
 if (builder.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
 
 app.MapControllers();
 

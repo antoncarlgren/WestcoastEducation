@@ -1,10 +1,11 @@
-﻿using WestcoastEducation.API.ViewModels.Student;
+﻿using WestcoastEducation.API.ViewModels.Authorization;
+using WestcoastEducation.API.ViewModels.Student;
 
 namespace WestcoastEducation.API.Data.Repositories.Interfaces;
 
 public interface IStudentRepository
-    : IRepository<StudentViewModel, PostStudentViewModel, PatchStudentViewModel>
+    : IRepository<StudentViewModel, RegisterUserViewModel, PatchStudentViewModel>
 {
-    Task AddCourse(StudentCourseViewModel model);
-    Task RemoveCourse(StudentCourseViewModel model);
+    Task AddCourseAsync(StudentCourseViewModel model);
+    Task RemoveCourseAsync(StudentCourseViewModel model);
 }

@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using WestcoastEducation.API.Data.Entities;
+using WestcoastEducation.API.ViewModels.Authorization;
 using WestcoastEducation.API.ViewModels.Category;
 using WestcoastEducation.API.ViewModels.Course;
 using WestcoastEducation.API.ViewModels.Student;
 using WestcoastEducation.API.ViewModels.Teacher;
+using HostingEnvironmentExtensions = Microsoft.Extensions.Hosting.HostingEnvironmentExtensions;
 
 namespace WestcoastEducation.API.Helpers;
 
@@ -19,6 +21,9 @@ public class AutoMapperProfiles : Profile
 
     private void CreateStudentMaps()
     {
+        CreateMap<RegisterUserViewModel, Student>()
+            .ForMember(dest => dest.Id, options => options.MapFrom(src => Guid.NewGuid()));
+        
         CreateMap<Student, StudentViewModel>()
             .ForMember(dest => dest.Email, options => options.MapFrom(src => src.ApplicationUser!.Email))
             .ForMember(dest => dest.PhoneNumber, options => options.MapFrom(src => src.ApplicationUser!.PhoneNumber))
@@ -31,7 +36,9 @@ public class AutoMapperProfiles : Profile
 
     private void CreateCourseMaps()
     {
-        CreateMap<PostCourseViewModel, Course>();
+        CreateMap<PostCourseViewModel, Course>()
+            .ForMember(dest => dest.Id, options => options.MapFrom(src => Guid.NewGuid()));
+        
         CreateMap<Course, CourseOverviewViewModel>();
 
         CreateMap<Course, CourseViewModel>()
@@ -43,11 +50,17 @@ public class AutoMapperProfiles : Profile
 
     private void CreateCategoryMaps()
     {
+        CreateMap<PostCategoryViewModel, Category>()
+            .ForMember(dest => dest.Id, options => options.MapFrom(src => Guid.NewGuid()));
+        
         CreateMap<Category, CategoryViewModel>();
     }
 
     private void CreateTeacherMaps()
     {
+        CreateMap<RegisterUserViewModel, Teacher>()
+            .ForMember(dest => dest.Id, options => options.MapFrom(src => Guid.NewGuid()));
+        
         CreateMap<Teacher, TeacherViewModel>()
             .ForMember(dest => dest.Email, options => options.MapFrom(src => src.ApplicationUser!.Email))
             .ForMember(dest => dest.PhoneNumber, options => options.MapFrom(src => src.ApplicationUser!.PhoneNumber))

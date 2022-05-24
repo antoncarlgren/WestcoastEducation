@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using WestcoastEducation.API.Data.Entities;
 using WestcoastEducation.API.Data.Repositories.Interfaces;
 using WestcoastEducation.API.ViewModels.Category;
 using WestcoastEducation.API.ViewModels.Course;
+using WestcoastEducation.API.ViewModels.Student;
 
 namespace WestcoastEducation.API.Controllers;
 
@@ -12,11 +14,16 @@ public class CoursesController : Controller
 {
     private readonly ICourseRepository _courseRepository;
     private readonly ICategoryRepository _categoryRepository;
+    private readonly IStudentRepository _studentRepository;
 
-    public CoursesController(ICourseRepository courseRepository, ICategoryRepository categoryRepository)
+    public CoursesController(
+        ICourseRepository courseRepository, 
+        ICategoryRepository categoryRepository,
+        IStudentRepository studentRepository)
     {
         _courseRepository = courseRepository;
         _categoryRepository = categoryRepository;
+        _studentRepository = studentRepository;
     }
     
     [HttpGet("list")]
@@ -96,14 +103,14 @@ public class CoursesController : Controller
                 return NoContent();
             }
 
-            return StatusCode(500, $"could not update {nameof(Course).ToLower()}.");
+            return StatusCode(500, $"Could not update {nameof(Course).ToLower()}.");
         }
         catch (Exception ex)
         {
             return StatusCode(500, ex.Message);
         }
     }
-    
+
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteCourse(string id)
     {

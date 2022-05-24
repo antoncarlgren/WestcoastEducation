@@ -50,7 +50,7 @@ public abstract class RepositoryBase<TEntity, TViewModel, TPostViewModel, TPatch
 
         if (entity is null)
         {
-            throw new Exception($"Could not find {typeof(TEntity).Name} with id {id}.");
+            throw new Exception($"Could not find {typeof(TEntity).Name.ToLower()} with id {id}.");
         }
 
         Context

@@ -74,10 +74,10 @@ public class CourseRepository
         course.Length = model.Length;
 
         course.Teacher = teacher
-            ?? throw new Exception($"No {nameof(teacher).ToLower()} with id {model.TeacherId} could be found.");
+            ?? throw new Exception($"No {nameof(Teacher).ToLower()} with id {model.TeacherId} could be found.");
         
         course.Category = category
-            ?? throw new Exception($"No {nameof(category).ToLower()} with id {model.CategoryId} could be found.");
+            ?? throw new Exception($"No {nameof(Category).ToLower()} with id {model.CategoryId} could be found.");
         
         Context.Courses.Update(course);
     }
@@ -106,14 +106,32 @@ public class CourseRepository
         course.Length = model.Length;
 
         course.Teacher = teacher
-                         ?? throw new Exception($"No {nameof(teacher).ToLower()} with id {model.TeacherId} could be found.");
+            ?? throw new Exception($"No {nameof(Teacher).ToLower()} with id {model.TeacherId} could be found.");
         
         course.Category = category
-                          ?? throw new Exception($"No {nameof(category).ToLower()} with id {model.CategoryId} could be found.");
+            ?? throw new Exception($"No {nameof(Category).ToLower()} with id {model.CategoryId} could be found.");
         
         Context.Courses.Update(course);
     }
 
+    public override async Task DeleteAsync(string id)
+    {
+        var course = await Context.Courses.FindAsync(id);
+
+        if (course is null)
+        {
+            throw new Exception($"No {nameof(Course).ToLower()} with id {id} could be found.");
+        }
+
+        var relatedStudentCourses = Context.StudentCourses
+            .Where(e => e.CourseId == course.Id);
+        
+        Context.StudentCourses
+            .RemoveRange(relatedStudentCourses);
+
+        Context.Courses.Remove(course);
+    }
+    
     private async Task<bool> ExistsByCourseNoAsync(int courseNo)
     {
         return await Context.Courses.AnyAsync(e => e.CourseNo == courseNo);

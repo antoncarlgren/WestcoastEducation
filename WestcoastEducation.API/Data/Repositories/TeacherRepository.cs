@@ -2,24 +2,25 @@
 using Microsoft.EntityFrameworkCore;
 using WestcoastEducation.API.Data.Entities;
 using WestcoastEducation.API.Data.Repositories.Interfaces;
+using WestcoastEducation.API.ViewModels.Authorization;
 using WestcoastEducation.API.ViewModels.Teacher;
 
 namespace WestcoastEducation.API.Data.Repositories;
 
-public class TeacherRepository : RepositoryBase<Teacher, TeacherViewModel, PostTeacherViewModel, PatchTeacherViewModel>,
+public class TeacherRepository : RepositoryBase<Teacher, TeacherViewModel, RegisterUserViewModel, PatchTeacherViewModel>,
     ITeacherRepository
 {
     public TeacherRepository(ApplicationContext context, IMapper mapper) 
         : base(context, mapper) { }
 
-    public override async Task AddAsync(PostTeacherViewModel model)
+    public override async Task AddAsync(RegisterUserViewModel model)
     {
         var teacherToAdd = Mapper.Map<Teacher>(model);
 
         await Context.Teachers.AddAsync(teacherToAdd);
     }
 
-    public override async Task UpdateAsync(string id, PostTeacherViewModel model)
+    public override async Task UpdateAsync(string id, RegisterUserViewModel model)
     {
         var teacher = await Context.Teachers
             .Include(e => e.ApplicationUser)
@@ -30,7 +31,7 @@ public class TeacherRepository : RepositoryBase<Teacher, TeacherViewModel, PostT
             throw new Exception($"No {nameof(Teacher).ToLower()} with id {id} could be found.");
         }
         
-        teacher.ApplicationUser.Address = model.Address;
+        teacher.ApplicationUser!.Address = model.Address;
         teacher.ApplicationUser.FirstName = model.FirstName;
         teacher.ApplicationUser.LastName = model.LastName;
         teacher.ApplicationUser.PhoneNumber = model.PhoneNumber;
@@ -50,7 +51,7 @@ public class TeacherRepository : RepositoryBase<Teacher, TeacherViewModel, PostT
             throw new Exception($"No {nameof(Teacher).ToLower()} with id {id} could be found.");
         }
         
-        teacher.ApplicationUser.Address = model.Address;
+        teacher.ApplicationUser!.Address = model.Address;
         teacher.ApplicationUser.FirstName = model.FirstName;
         teacher.ApplicationUser.LastName = model.LastName;
         teacher.ApplicationUser.PhoneNumber = model.PhoneNumber;
@@ -59,7 +60,7 @@ public class TeacherRepository : RepositoryBase<Teacher, TeacherViewModel, PostT
         Context.Teachers.Update(teacher);
     }
 
-    public async Task AddCompetency(TeacherCompetencyViewModel model)
+    public async Task AddCompetencyAsync(TeacherCompetencyViewModel model)
     {
         var teacher = await Context.Teachers
             .Include(e => e.TeacherCompetencies)!
@@ -98,7 +99,7 @@ public class TeacherRepository : RepositoryBase<Teacher, TeacherViewModel, PostT
         }
     }
 
-    public async Task RemoveCompetency(TeacherCompetencyViewModel model)
+    public async Task RemoveCompetencyAsync(TeacherCompetencyViewModel model)
     {
         var teacher = await Context.Teachers
             .Include(e => e.TeacherCompetencies)!
@@ -129,7 +130,7 @@ public class TeacherRepository : RepositoryBase<Teacher, TeacherViewModel, PostT
         }
     }
 
-    public async Task AddCourse(TeacherCourseViewModel model)
+    public async Task AddCourseAsync(TeacherCourseViewModel model)
     {
         var teacher = await Context.Teachers
             .Include(e => e.Courses)
@@ -155,7 +156,7 @@ public class TeacherRepository : RepositoryBase<Teacher, TeacherViewModel, PostT
         }
     }
 
-    public async Task RemoveCourse(TeacherCourseViewModel model)
+    public async Task RemoveCourseAsync(TeacherCourseViewModel model)
     {
         var teacher = await Context.Teachers
             .Include(e => e.Courses)
@@ -181,6 +182,24 @@ public class TeacherRepository : RepositoryBase<Teacher, TeacherViewModel, PostT
         }
     }
 
+    public override async Task DeleteAsync(string id)
+    {
+        var teacher = await Context.Teachers.FindAsync(id);
+
+        if (teacher is null)
+        {
+            throw new Exception($"No {nameof(Teacher).ToLower()} with id {id} could be found.");
+        }
+
+        var relatedTeacherCompetencies = Context.TeacherCompetencies
+            .Where(e => e.TeacherId == teacher.Id);
+        
+        Context.TeacherCompetencies
+            .RemoveRange(relatedTeacherCompetencies);
+
+        Context.Teachers.Remove(teacher);
+    }
+    
     private static bool HasCompetency(Teacher teacher, string categoryId)
     {
         return teacher.TeacherCompetencies!
