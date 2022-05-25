@@ -23,6 +23,24 @@ public class CourseRepository
             .ProjectTo<CourseOverviewViewModel>(Mapper.ConfigurationProvider)
             .ToListAsync();
     }
+
+    public async Task<CourseViewModel> GetCourseByCourseNo(int courseNo)
+    {
+        var course = await Context.Courses
+            .Include(c => c.Teacher)
+            .Include(c => c.Category)
+            .Where(e => e.CourseNo == courseNo)
+            .ProjectTo<CourseViewModel>(Mapper.ConfigurationProvider)
+            .FirstOrDefaultAsync();
+
+        if (course is null)
+        {
+            throw new Exception($"Could not find {nameof(Course).ToLower()} with course number {courseNo}.");
+        }
+
+        return course;
+
+    }
     
     public override async Task AddAsync(PostCourseViewModel model)
     {

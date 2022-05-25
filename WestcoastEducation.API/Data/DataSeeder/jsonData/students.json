@@ -1,2 +1,82 @@
-﻿{
-}
+﻿[
+  {
+    "FirstName": "Knapp",
+    "LastName": " Merritt",
+    "Password": "hunter2",
+    "Email": "knappmerritt@inquala.com",
+    "PhoneNumber": "+1 (939) 419-3531",
+    "Address": "875 Richardson Street, Davenport, Mississippi, 3368"
+  },
+  {
+    "FirstName": "Helen",
+    "LastName": " Duran",
+    "Password": "hunter2",
+    "Email": "helenduran@inquala.com",
+    "PhoneNumber": "+1 (999) 474-3177",
+    "Address": "599 Polhemus Place, Levant, Georgia, 2631"
+  },
+  {
+    "FirstName": "Maxine",
+    "LastName": " Chambers",
+    "Password": "hunter2",
+    "Email": "maxinechambers@inquala.com",
+    "PhoneNumber": "+1 (984) 456-3420",
+    "Address": "503 Lester Court, Unionville, South Carolina, 5065"
+  },
+  {
+    "FirstName": "Burks",
+    "LastName": " Salinas",
+    "Password": "hunter2",
+    "Email": "burkssalinas@inquala.com",
+    "PhoneNumber": "+1 (911) 562-3442",
+    "Address": "273 Lott Street, Canoochee, Arizona, 7937"
+  },
+  {
+    "FirstName": "Olsen",
+    "LastName": " Powell",
+    "Password": "hunter2",
+    "Email": "olsenpowell@inquala.com",
+    "PhoneNumber": "+1 (907) 465-3154",
+    "Address": "217 Hoyt Street, Vandiver, Delaware, 8187"
+  },
+  {
+    "FirstName": "Elena",
+    "LastName": " Fuller",
+    "Password": "hunter2",
+    "Email": "elenafuller@inquala.com",
+    "PhoneNumber": "+1 (847) 518-2903",
+    "Address": "742 Poplar Street, Day, Texas, 314"
+  },
+  {
+    "FirstName": "Pierce",
+    "LastName": " Stein",
+    "Password": "hunter2",
+    "Email": "piercestein@inquala.com",
+    "PhoneNumber": "+1 (945) 574-2866",
+    "Address": "539 Union Avenue, Abrams, New Mexico, 1433"
+  },
+  {
+    "FirstName": "Debra",
+    "LastName": " Carson",
+    "Password": "hunter2",
+    "Email": "debracarson@inquala.com",
+    "PhoneNumber": "+1 (844) 426-3415",
+    "Address": "677 Box Street, Crayne, Kentucky, 2198"
+  },
+  {
+    "FirstName": "Ryan",
+    "LastName": " Rivers",
+    "Password": "hunter2",
+    "Email": "ryanrivers@inquala.com",
+    "PhoneNumber": "+1 (878) 457-3502",
+    "Address": "321 Morgan Avenue, Edgewater, Virginia, 3059"
+  },
+  {
+    "FirstName": "Tonya",
+    "LastName": " Robertson",
+    "Password": "hunter2",
+    "Email": "tonyarobertson@inquala.com",
+    "PhoneNumber": "+1 (800) 468-3382",
+    "Address": "431 Duryea Court, Golconda, Virgin Islands, 8203"
+  }
+]

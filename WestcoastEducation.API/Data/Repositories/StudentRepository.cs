@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WestcoastEducation.API.Data.Entities;
 using WestcoastEducation.API.Data.Repositories.Interfaces;
@@ -26,6 +27,8 @@ public class StudentRepository
     {
         var student = await Context.Students
             .Include(e => e.ApplicationUser)
+            .Include(e => e.StudentCourses)!
+            .ThenInclude(e => e.Course)
             .FirstOrDefaultAsync(e => e.Id == id);
 
         if (student is null)

@@ -27,6 +27,7 @@ public class AutoMapperProfiles : Profile
         CreateMap<Student, StudentViewModel>()
             .ForMember(dest => dest.Email, options => options.MapFrom(src => src.ApplicationUser!.Email))
             .ForMember(dest => dest.PhoneNumber, options => options.MapFrom(src => src.ApplicationUser!.PhoneNumber))
+            .ForMember(dest => dest.Address, options => options.MapFrom(src => src.ApplicationUser!.Address))
             .ForMember(dest => dest.Courses, options => options.MapFrom(src =>
                 src.StudentCourses!
                     .Select(sc => sc.Course!.Title)))
@@ -64,8 +65,9 @@ public class AutoMapperProfiles : Profile
         CreateMap<Teacher, TeacherViewModel>()
             .ForMember(dest => dest.Email, options => options.MapFrom(src => src.ApplicationUser!.Email))
             .ForMember(dest => dest.PhoneNumber, options => options.MapFrom(src => src.ApplicationUser!.PhoneNumber))
+            .ForMember(dest => dest.Address, options => options.MapFrom(src => src.ApplicationUser!.Address))
             .ForMember(dest => dest.Courses, options => options.MapFrom(src =>
-                src.Courses!.Select(sc => sc.Title)))
+                src.Courses!.Select(c => c.Title)))
             .ForMember(dest => dest.Competencies, options => options.MapFrom(src =>
                 src.TeacherCompetencies!
                     .Select(tc => tc.Category!.Name)))

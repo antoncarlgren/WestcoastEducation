@@ -42,6 +42,10 @@ public class AuthController : Controller
     {
         var user = new ApplicationUser
         {
+            FirstName = model.FirstName,
+            LastName = model.LastName,
+            Address = model.Address,
+            PhoneNumber = model.PhoneNumber,
             Email = model.Email!.ToLower(),
             UserName = model.Email.ToLower()
         };

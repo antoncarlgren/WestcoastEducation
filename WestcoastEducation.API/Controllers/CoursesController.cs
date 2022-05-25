@@ -38,7 +38,7 @@ public class CoursesController : Controller
         return Ok(await _categoryRepository.GetCategoriesWithCourses());
     }
     
-    [HttpGet("{id}")]
+    [HttpGet("byid/{id}")]
     public async Task<ActionResult<CourseViewModel>> GetCourseDetailsById(string id)
     {
         var response = await _courseRepository.GetByIdAsync(id);
@@ -46,6 +46,19 @@ public class CoursesController : Controller
         if (response is null)
         {
             return NotFound($"No {nameof(Course).ToLower()} with id {id} could be found.");
+        }
+
+        return Ok(response);
+    }
+
+    [HttpGet("{courseNo}")]
+    public async Task<ActionResult<CourseViewModel>> GetCourseByCourseNo(int courseNo)
+    {
+        var response = await _courseRepository.GetCourseByCourseNo(courseNo);
+
+        if (response is null)
+        {
+            return NotFound($"No {nameof(Course).ToLower()} with course number {courseNo} could be found.");
         }
 
         return Ok(response);

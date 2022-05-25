@@ -5,7 +5,7 @@ namespace WestcoastEducation.API.Data.Entities;
 
 public class Teacher : IEntity
 {
-    public string? Id { get; set; }
+    public string? Id { get; set; } = Guid.NewGuid().ToString();
     
     
     public ApplicationUser? ApplicationUser { get; set; }

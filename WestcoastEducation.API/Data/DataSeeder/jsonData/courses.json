@@ -1,2 +1,42 @@
-﻿{
-}
+﻿[
+  {
+    "CourseNo": 1337,
+    "CategoryName": "JavaScript",
+    "Title": "JavaScript för nybörjare",
+    "Details": "Kursen kommer innehålla följande moment: JavaScript 101, Webbutveckling, Grundläggande React",
+    "Description": "Drömmer du om att bli JavaScript-utvecklare? Då är det här kursen för dig!",
+    "Length": "3 dagar"
+  },
+  {
+    "CourseNo": 1010,
+    "CategoryName": ".NET",
+    "Title": "Webbutvecking med ASP.NET",
+    "Details": "Kursen kommer innehålla följande moment: Programmering med C#, Databasadministration, Webbutveckling med ASP.NET",
+    "Description": "Perfekt kurs för blivande backend-utvecklare.",
+    "Length": "40 timmar"
+  },
+  {
+    "CourseNo": 2222,
+    "CategoryName": "Malbolge",
+    "Title": "Avancerad Malbolge",
+    "Details": "Kursen kommer att innehålla följande moment: ????",
+    "Description": "Om du tycker om esoteriska programmeringsspråk så är den här kursen som skräddarsydd.",
+    "Length": "5 minuter"
+  },
+  {
+    "CourseNo": 3434,
+    "CategoryName": "COBOL",
+    "Title": "Avancerad COBOL",
+    "Details": "Kursen kommer innehålla följande moment: Utveckling av banksystem",
+    "Description": "Om du är en utvecklare med grundläggande kunskaper om COBOL så är den här kursen ett naturligt nästa steg för dig.",
+    "Length": "1 vecka"
+  },
+  {
+    "CourseNo": 5555,
+    "CategoryName": "DevOps",
+    "Title": "Azure DevOps",
+    "Details": "Kursen kommer innehålla följande moment: DevOps 101, Azure DevOps",
+    "Description": "Perfekt kurs för de som är intresserade av att arbeta inom DevOps.",
+    "Length": "6 dagar"
+  }
+]

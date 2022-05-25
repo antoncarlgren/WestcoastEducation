@@ -1,3 +1,82 @@
-﻿
-{
-}
+﻿[
+  {
+    "FirstName": "Angelita",
+    "LastName": " Donaldson",
+    "Password": "hunter2",
+    "Email": "angelitadonaldson@inquala.com",
+    "PhoneNumber": "+1 (881) 518-3340",
+    "Address": "433 Commerce Street, Mayfair, Florida, 9710"
+  },
+  {
+    "FirstName": "Claudia",
+    "LastName": " Ray",
+    "Password": "hunter2",
+    "Email": "claudiaray@inquala.com",
+    "PhoneNumber": "+1 (823) 459-2888",
+    "Address": "748 Bogart Street, Cuylerville, New Jersey, 755"
+  },
+  {
+    "FirstName": "Frankie",
+    "LastName": " Berg",
+    "Password": "hunter2",
+    "Email": "frankieberg@inquala.com",
+    "PhoneNumber": "+1 (812) 463-2304",
+    "Address": "861 Gilmore Court, Gulf, Oklahoma, 5591"
+  },
+  {
+    "FirstName": "Roxie",
+    "LastName": " Powell",
+    "Password": "hunter2",
+    "Email": "roxiepowell@inquala.com",
+    "PhoneNumber": "+1 (950) 562-2296",
+    "Address": "811 Fulton Street, Hayden, South Carolina, 6264"
+  },
+  {
+    "FirstName": "Kaye",
+    "LastName": " Figueroa",
+    "Password": "hunter2",
+    "Email": "kayefigueroa@inquala.com",
+    "PhoneNumber": "+1 (861) 539-2140",
+    "Address": "642 Drew Street, Neahkahnie, Pennsylvania, 8011"
+  },
+  {
+    "FirstName": "Robles",
+    "LastName": " Carr",
+    "Password": "hunter2",
+    "Email": "roblescarr@inquala.com",
+    "PhoneNumber": "+1 (899) 436-2366",
+    "Address": "595 Humboldt Street, Gwynn, Puerto Rico, 9807"
+  },
+  {
+    "FirstName": "Carpenter",
+    "LastName": " Castaneda",
+    "Password": "hunter2",
+    "Email": "carpentercastaneda@inquala.com",
+    "PhoneNumber": "+1 (800) 586-2210",
+    "Address": "142 Bulwer Place, Independence, Mississippi, 9005"
+  },
+  {
+    "FirstName": "Kaitlin",
+    "LastName": " Harrison",
+    "Password": "hunter2",
+    "Email": "kaitlinharrison@inquala.com",
+    "PhoneNumber": "+1 (961) 532-3491",
+    "Address": "122 Durland Place, Westmoreland, New York, 4264"
+  },
+  {
+    "FirstName": "Suzanne",
+    "LastName": " Beard",
+    "Password": "hunter2",
+    "Email": "suzannebeard@inquala.com",
+    "PhoneNumber": "+1 (800) 488-3888",
+    "Address": "332 Grattan Street, Goodville, Nebraska, 4089"
+  },
+  {
+    "FirstName": "Ramsey",
+    "LastName": " Price",
+    "Password": "hunter2",
+    "Email": "ramseyprice@inquala.com",
+    "PhoneNumber": "+1 (859) 401-3336",
+    "Address": "928 Paerdegat Avenue, Skyland, Rhode Island, 7915"
+  }
+]

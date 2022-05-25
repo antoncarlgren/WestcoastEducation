@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WestcoastEducation.API.Data.Entities;
 using WestcoastEducation.API.Data.Repositories.Interfaces;
@@ -12,7 +13,7 @@ public class TeacherRepository : RepositoryBase<Teacher, TeacherViewModel, Regis
 {
     public TeacherRepository(ApplicationContext context, IMapper mapper) 
         : base(context, mapper) { }
-
+    
     public override async Task AddAsync(RegisterUserViewModel model)
     {
         var teacherToAdd = Mapper.Map<Teacher>(model);

@@ -1,17 +1,17 @@
 ﻿[
   {
-    "name": "JavaScript"
+    "Name": "JavaScript"
   },
   {
-    "name": ".NET"
+    "Name": ".NET"
   },
   {
-    "name": "COBOL"
+    "Name": "COBOL"
   },
   {
-    "name": "DevOps"
+    "Name": "DevOps"
   },
   {
-    "name": "Malbolge"
+    "Name": "Malbolge"
   }
 ]

@@ -7,4 +7,5 @@ public interface ICourseRepository
     : IRepository<CourseViewModel, PostCourseViewModel, PatchCourseViewModel>
 {
     Task<List<CourseOverviewViewModel>> GetAllCourseOverviews();
+    Task<CourseViewModel> GetCourseByCourseNo(int courseNo);
 }
