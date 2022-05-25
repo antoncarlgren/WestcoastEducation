@@ -13,26 +13,6 @@ public class CategoryRepository
 {
     public CategoryRepository(ApplicationContext context, IMapper mapper) 
         : base(context, mapper) { }
-
-    public async Task<List<CategoryWithCoursesViewModel>> GetCategoriesWithCourses()
-    {
-        return await Context.Categories
-            .Include(e => e.Courses)
-            .Select(e => new CategoryWithCoursesViewModel
-            {
-                CategoryId = e.Id,
-                CategoryName = e.Name,
-                Courses = e.Courses!
-                    .Select(c => new CourseOverviewViewModel
-                    {
-                        Title = c.Title,
-                        CourseNo = c.CourseNo,
-                        Length = c.Length
-                    })
-                    .ToList()
-            })
-            .ToListAsync();
-    }
     
     public override async Task AddAsync(PostCategoryViewModel model)
     {
@@ -65,5 +45,28 @@ public class CategoryRepository
         category.Name = model.Name;
 
         Context.Categories.Update(category);
+    }
+
+    public override async Task DeleteAsync(string id)
+    {
+        var relatedCourses = await Context.Courses
+            .Where(c => c.CategoryId == id)
+            .ToListAsync();
+
+        if (relatedCourses is not null)
+        {
+            relatedCourses.ForEach(c => c.CategoryId = null);
+        }
+
+        var relatedTeacherCompetencies = await Context.TeacherCompetencies
+            .Where(tc => tc.CategoryId == id)
+            .ToListAsync();
+
+        if (relatedTeacherCompetencies is not null)
+        {
+            Context.TeacherCompetencies.RemoveRange(relatedTeacherCompetencies);
+        }
+        
+        await base.DeleteAsync(id);
     }
 }

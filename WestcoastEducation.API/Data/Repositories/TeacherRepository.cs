@@ -8,11 +8,24 @@ using WestcoastEducation.API.ViewModels.Teacher;
 
 namespace WestcoastEducation.API.Data.Repositories;
 
-public class TeacherRepository : RepositoryBase<Teacher, TeacherViewModel, RegisterUserViewModel, PatchTeacherViewModel>,
+public class TeacherRepository : RepositoryBase<Teacher, TeacherViewModel, RegisterUserViewModel, PatchApplicationUserViewModel>,
     ITeacherRepository
 {
     public TeacherRepository(ApplicationContext context, IMapper mapper) 
         : base(context, mapper) { }
+    
+    public async Task<string> GetIdByApplicationUserIdAsync(string appUserId)
+    {
+        var teacher = await Context.Teachers
+            .FirstOrDefaultAsync(t => t.ApplicationUserId == appUserId);
+
+        if (teacher is null)
+        {
+            throw new Exception($"{nameof(Teacher)} with ApplicationUserId {appUserId} could not be found.");
+        }
+
+        return teacher.Id!;
+    }
     
     public override async Task AddAsync(RegisterUserViewModel model)
     {
@@ -41,7 +54,7 @@ public class TeacherRepository : RepositoryBase<Teacher, TeacherViewModel, Regis
         Context.Teachers.Update(teacher);
     }
 
-    public override async Task UpdateAsync(string id, PatchTeacherViewModel model)
+    public override async Task UpdateAsync(string id, PatchApplicationUserViewModel model)
     {
         var teacher = await Context.Teachers
             .Include(e => e.ApplicationUser)
@@ -60,7 +73,7 @@ public class TeacherRepository : RepositoryBase<Teacher, TeacherViewModel, Regis
 
         Context.Teachers.Update(teacher);
     }
-
+    
     public async Task AddCompetencyAsync(TeacherCompetencyViewModel model)
     {
         var teacher = await Context.Teachers
@@ -83,7 +96,7 @@ public class TeacherRepository : RepositoryBase<Teacher, TeacherViewModel, Regis
         }
         
         // Only add new competency if teacher doesn't already have it
-        if (HasCompetency(teacher, model.CategoryId!))
+        if (!HasCompetency(teacher, model.CategoryId!))
         {
             var teacherCompetency = new TeacherCompetency
             {
@@ -126,7 +139,8 @@ public class TeacherRepository : RepositoryBase<Teacher, TeacherViewModel, Regis
         {
             var teacherCompetency = await Context.TeacherCompetencies
                 .FirstOrDefaultAsync(e => e.TeacherId == model.TeacherId && e.CategoryId == model.CategoryId);
-            
+
+            teacher.TeacherCompetencies!.Remove(teacherCompetency!);
             Context.TeacherCompetencies.Remove(teacherCompetency!);
         }
     }
@@ -194,10 +208,14 @@ public class TeacherRepository : RepositoryBase<Teacher, TeacherViewModel, Regis
 
         var relatedTeacherCompetencies = Context.TeacherCompetencies
             .Where(e => e.TeacherId == teacher.Id);
-        
-        Context.TeacherCompetencies
-            .RemoveRange(relatedTeacherCompetencies);
 
+
+        if (relatedTeacherCompetencies is not null)
+        {
+            Context.TeacherCompetencies
+                .RemoveRange(relatedTeacherCompetencies);
+        }
+        
         Context.Teachers.Remove(teacher);
     }
     

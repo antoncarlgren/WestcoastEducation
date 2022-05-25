@@ -1,12 +1,14 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using WestcoastEducation.API.Data.Entities;
 using WestcoastEducation.API.Data.Repositories.Interfaces;
 using WestcoastEducation.API.ViewModels.Authorization;
+using WestcoastEducation.API.ViewModels.Teacher;
 
 namespace WestcoastEducation.API.Controllers;
 
@@ -46,6 +48,7 @@ public class AuthController : Controller
             LastName = model.LastName,
             Address = model.Address,
             PhoneNumber = model.PhoneNumber,
+            Id = Guid.NewGuid().ToString(),
             Email = model.Email!.ToLower(),
             UserName = model.Email.ToLower()
         };
@@ -130,7 +133,80 @@ public class AuthController : Controller
 
         return Ok(userData);
     }
+    
+    [HttpPatch("{id}")]
+    public async Task<ActionResult> UpdateUser(string id, PatchApplicationUserViewModel model)
+    {
+        var user = await _userManager.FindByIdAsync(id);
 
+        if (user is null)
+        {
+            return NotFound($"Could not find user with id {id}.");
+        }
+
+        try
+        {
+            var claims = await _userManager.GetClaimsAsync(user);
+
+            if (claims.Any(c => c.Type == "Teacher" && c.Value == "true"))
+            {
+                // TODO: Fix
+                _teacherRepository.UpdateAsync(model);
+            }
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
+    
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteUser(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+
+        if (user is null)
+        {
+            return NotFound($"Could not find user with id {id}");
+        }
+
+        try
+        {
+            var claims = await _userManager.GetClaimsAsync(user);
+
+            if (claims.Any(c => c.Type == "Teacher" && c.Value == "true"))
+            {
+                var teacherId = await _teacherRepository.GetIdByApplicationUserIdAsync(user.Id);
+
+                await _teacherRepository.DeleteAsync(teacherId);
+
+                if (!await _teacherRepository.SaveAsync())
+                {
+                    return StatusCode(500, $"Could not delete {nameof(Teacher).ToLower()}.");
+                }
+            }
+            else
+            {
+                var studentId = await _studentRepository.GetIdByApplicationUserIdAsync(user.Id);
+
+                await _studentRepository.DeleteAsync(studentId);
+
+                if (!await _studentRepository.SaveAsync())
+                {
+                    return StatusCode(500, $"Could not delete {nameof(Student).ToLower()}.");
+                }
+            }
+
+            await _userManager.DeleteAsync(user);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+        
+        return NoContent();
+    }
+    
     private async Task<string> CreateJwtToken(ApplicationUser user)
     {
         var key = Encoding.ASCII.GetBytes(_config.GetValue<string>("apiKey"));

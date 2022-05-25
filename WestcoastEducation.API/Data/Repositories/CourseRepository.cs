@@ -16,7 +16,7 @@ public class CourseRepository
     public CourseRepository(ApplicationContext context, IMapper mapper)
         : base(context, mapper) { }
 
-    public async Task<List<CourseOverviewViewModel>> GetAllCourseOverviews()
+    public async Task<List<CourseOverviewViewModel>> GetAllCourseOverviewsAsync()
     {
         return await Context
             .Courses
@@ -24,7 +24,27 @@ public class CourseRepository
             .ToListAsync();
     }
 
-    public async Task<CourseViewModel> GetCourseByCourseNo(int courseNo)
+    public async Task<List<CategoryWithCoursesViewModel>> GetCategoriesWithCoursesAsync()
+    {
+        return await Context.Categories
+            .Include(e => e.Courses)
+            .Select(e => new CategoryWithCoursesViewModel
+            {
+                CategoryId = e.Id,
+                CategoryName = e.Name,
+                Courses = e.Courses!
+                    .Select(c => new CourseOverviewViewModel
+                    {
+                        Title = c.Title,
+                        CourseNo = c.CourseNo,
+                        Length = c.Length
+                    })
+                    .ToList()
+            })
+            .ToListAsync();
+    }
+    
+    public async Task<CourseViewModel> GetCourseByCourseNoAsync(int courseNo)
     {
         var course = await Context.Courses
             .Include(c => c.Teacher)
@@ -143,9 +163,12 @@ public class CourseRepository
 
         var relatedStudentCourses = Context.StudentCourses
             .Where(e => e.CourseId == course.Id);
-        
-        Context.StudentCourses
-            .RemoveRange(relatedStudentCourses);
+
+        if (relatedStudentCourses is not null)
+        {
+            Context.StudentCourses
+                .RemoveRange(relatedStudentCourses);
+        }
 
         Context.Courses.Remove(course);
     }

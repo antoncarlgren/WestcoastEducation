@@ -206,8 +206,9 @@ public class DataSeeder
         var students = await _context.Students
             .ToListAsync();
 
-        // TODO: Refactor this spaghetti shit
-        // spaghetti code deluxe; send help :')
+        // TODO: Refactor this spaghetti
+        // spaghetti code deluxe
+        // send help
         var courses = courseData
             .Select(vm =>
             {

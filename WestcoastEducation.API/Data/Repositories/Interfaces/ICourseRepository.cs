@@ -6,6 +6,7 @@ namespace WestcoastEducation.API.Data.Repositories.Interfaces;
 public interface ICourseRepository
     : IRepository<CourseViewModel, PostCourseViewModel, PatchCourseViewModel>
 {
-    Task<List<CourseOverviewViewModel>> GetAllCourseOverviews();
-    Task<CourseViewModel> GetCourseByCourseNo(int courseNo);
+    Task<List<CourseOverviewViewModel>> GetAllCourseOverviewsAsync();
+    Task<List<CategoryWithCoursesViewModel>> GetCategoriesWithCoursesAsync();
+    Task<CourseViewModel> GetCourseByCourseNoAsync(int courseNo);
 }

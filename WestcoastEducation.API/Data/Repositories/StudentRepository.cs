@@ -10,12 +10,25 @@ using WestcoastEducation.API.ViewModels.Student;
 namespace WestcoastEducation.API.Data.Repositories;
 
 public class StudentRepository 
-    : RepositoryBase<Student, StudentViewModel, RegisterUserViewModel, PatchStudentViewModel>,
+    : RepositoryBase<Student, StudentViewModel, RegisterUserViewModel, PatchApplicationUserViewModel>,
     IStudentRepository
 {
     public StudentRepository(ApplicationContext context, IMapper mapper) 
         : base(context, mapper) { }
 
+    public async Task<string> GetIdByApplicationUserIdAsync(string appUserId)
+    {
+        var student = await Context.Students
+            .FirstOrDefaultAsync(s => s.ApplicationUserId == appUserId);
+
+        if (student is null)
+        {
+            throw new Exception($"{nameof(Student)} with ApplicationUserId {appUserId} could not be found.");
+        }
+
+        return student.Id!;
+    }
+    
     public override async Task AddAsync(RegisterUserViewModel model)
     {
         var studentToAdd = Mapper.Map<Student>(model);
@@ -45,7 +58,7 @@ public class StudentRepository
         Context.Students.Update(student);
     }
 
-    public override async Task UpdateAsync(string id, PatchStudentViewModel model)
+    public override async Task UpdateAsync(string id, PatchApplicationUserViewModel model)
     {
         var student = await Context.Students
             .Include(e => e.ApplicationUser)
@@ -64,6 +77,7 @@ public class StudentRepository
 
         Context.Students.Update(student);
     }
+
 
     public async Task AddCourseAsync(StudentCourseViewModel model)
     {
@@ -146,9 +160,12 @@ public class StudentRepository
 
         var relatedStudentCourses = Context.StudentCourses
             .Where(e => e.StudentId == student.Id);
-        
-        Context.StudentCourses
-            .RemoveRange(relatedStudentCourses);
+
+        if (relatedStudentCourses is not null)
+        {
+            Context.StudentCourses
+                .RemoveRange(relatedStudentCourses);
+        }
 
         Context.Students.Remove(student);
     }

@@ -34,7 +34,7 @@ public class TeachersController : Controller
 
         return Ok(response);
     }
-    
+
     [HttpPatch("{id}/addcourse")]
     public async Task<ActionResult> AddTeacherToCourse(string id, TeacherCourseViewModel model)
     {

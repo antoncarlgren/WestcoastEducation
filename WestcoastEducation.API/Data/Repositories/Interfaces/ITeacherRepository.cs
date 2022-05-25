@@ -4,8 +4,9 @@ using WestcoastEducation.API.ViewModels.Teacher;
 namespace WestcoastEducation.API.Data.Repositories.Interfaces;
 
 public interface ITeacherRepository
-    : IRepository<TeacherViewModel, RegisterUserViewModel, PatchTeacherViewModel>
+    : IRepository<TeacherViewModel, RegisterUserViewModel, PatchApplicationUserViewModel>
 {
+    Task<string> GetIdByApplicationUserIdAsync(string appUserId);
     Task AddCompetencyAsync(TeacherCompetencyViewModel model);
     Task RemoveCompetencyAsync(TeacherCompetencyViewModel model);
     Task AddCourseAsync(TeacherCourseViewModel model);

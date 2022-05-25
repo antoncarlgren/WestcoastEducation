@@ -13,29 +13,26 @@ namespace WestcoastEducation.API.Controllers;
 public class CoursesController : Controller
 {
     private readonly ICourseRepository _courseRepository;
-    private readonly ICategoryRepository _categoryRepository;
     private readonly IStudentRepository _studentRepository;
 
     public CoursesController(
-        ICourseRepository courseRepository, 
-        ICategoryRepository categoryRepository,
+        ICourseRepository courseRepository,
         IStudentRepository studentRepository)
     {
         _courseRepository = courseRepository;
-        _categoryRepository = categoryRepository;
         _studentRepository = studentRepository;
     }
     
     [HttpGet("list")]
     public async Task<ActionResult<List<CourseOverviewViewModel>>> ListCourses()
     {
-        return Ok(await _courseRepository.GetAllCourseOverviews());
+        return Ok(await _courseRepository.GetAllCourseOverviewsAsync());
     }
 
     [HttpGet("categories")]
     public async Task<ActionResult<List<CategoryWithCoursesViewModel>>> ListCoursesByCategory()
     {
-        return Ok(await _categoryRepository.GetCategoriesWithCourses());
+        return Ok(await _courseRepository.GetCategoriesWithCoursesAsync());
     }
     
     [HttpGet("byid/{id}")]
@@ -54,7 +51,7 @@ public class CoursesController : Controller
     [HttpGet("{courseNo}")]
     public async Task<ActionResult<CourseViewModel>> GetCourseByCourseNo(int courseNo)
     {
-        var response = await _courseRepository.GetCourseByCourseNo(courseNo);
+        var response = await _courseRepository.GetCourseByCourseNoAsync(courseNo);
 
         if (response is null)
         {
