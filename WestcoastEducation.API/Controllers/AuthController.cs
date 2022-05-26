@@ -86,6 +86,8 @@ public class AuthController : Controller
             }
             else
             {
+                await _userManager.AddClaimAsync(user, new("Teacher", "false"));
+                
                 await _studentRepository.AddAsync(model);
 
                 if (!await _studentRepository.SaveAsync())
@@ -150,9 +152,14 @@ public class AuthController : Controller
 
             if (claims.Any(c => c.Type == "Teacher" && c.Value == "true"))
             {
-                // TODO: Fix
-                _teacherRepository.UpdateAsync(model);
+                await _teacherRepository.UpdateAsync(id, model);
             }
+            else
+            {
+                await _studentRepository.UpdateAsync(id, model);
+            }
+
+            return NoContent();
         }
         catch (Exception ex)
         {
@@ -160,8 +167,67 @@ public class AuthController : Controller
         }
     }
     
+    [HttpPut("{id}")]
+    public async Task<ActionResult> UpdateUser(string id, RegisterUserViewModel model)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+
+        if (user is null)
+        {
+            return NotFound($"Could not find user with id {id}.");
+        }
+
+        try
+        {
+            var claims = await _userManager.GetClaimsAsync(user);
+
+            if (claims.Any(c => c.Type == "Teacher" && c.Value == "true"))
+            {
+                await _teacherRepository.UpdateAsync(id, model);
+            }
+            else
+            {
+                await _studentRepository.UpdateAsync(id, model);
+            }
+
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
+
+    [HttpPatch("{id}/password")]
+    public async Task<ActionResult> UpdatePassword(string id, UpdatePasswordViewModel model)
+    {
+        if (string.IsNullOrEmpty(model.Password)
+            || string.IsNullOrWhiteSpace(model.Password))
+        {
+            return BadRequest("Password cannot be null, empty, or whitespace.");
+        }
+        
+        
+        var user = await _userManager.FindByIdAsync(id);
+
+        if (user is null)
+        {
+            return NotFound($"User with id {id} could not be found.");
+        }
+
+        await _userManager.RemovePasswordAsync(user);
+        var result = await _userManager.AddPasswordAsync(user, model.Password);
+
+        if (!result.Succeeded)
+        {
+            return Unauthorized("Could not change password.");
+        }
+        
+        return NoContent();
+    }
+    
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteUser(string id)
+    public async Task<ActionResult> DeleteUser(string id)
     {
         var user = await _userManager.FindByIdAsync(id);
 

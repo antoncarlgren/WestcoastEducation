@@ -13,8 +13,13 @@ public class StudentRepository
     : RepositoryBase<Student, StudentViewModel, RegisterUserViewModel, PatchApplicationUserViewModel>,
     IStudentRepository
 {
-    public StudentRepository(ApplicationContext context, IMapper mapper) 
-        : base(context, mapper) { }
+    private readonly UserManager<ApplicationUser> _userManager;
+
+    public StudentRepository(ApplicationContext context, IMapper mapper, UserManager<ApplicationUser> userManager) 
+        : base(context, mapper)
+    {
+        _userManager = userManager;
+    }
 
     public async Task<string> GetIdByApplicationUserIdAsync(string appUserId)
     {
@@ -38,44 +43,40 @@ public class StudentRepository
 
     public override async Task UpdateAsync(string id, RegisterUserViewModel model)
     {
-        var student = await Context.Students
-            .Include(e => e.ApplicationUser)
-            .Include(e => e.StudentCourses)!
-            .ThenInclude(e => e.Course)
-            .FirstOrDefaultAsync(e => e.Id == id);
+        var user = await _userManager.FindByIdAsync(id);
 
-        if (student is null)
+        if (user is null)
         {
-            throw new Exception($"Could not find {nameof(Student).ToLower()} with id {id}.");
+            throw new Exception($"No user with id {id} could be found.");
         }
+        
+        user.Address = model.Address;
+        user.FirstName = model.FirstName;
+        user.LastName = model.LastName;
+        user.PhoneNumber = model.PhoneNumber;
+        user.Email = model.Email;
+        user.UserName = model.Email;
 
-        student.ApplicationUser!.Address = model.Address;
-        student.ApplicationUser.FirstName = model.FirstName;
-        student.ApplicationUser.LastName = model.LastName;
-        student.ApplicationUser.PhoneNumber = model.PhoneNumber;
-        student.ApplicationUser.Email = model.Email;
-
-        Context.Students.Update(student);
+        await _userManager.UpdateAsync(user);
     }
 
     public override async Task UpdateAsync(string id, PatchApplicationUserViewModel model)
     {
-        var student = await Context.Students
-            .Include(e => e.ApplicationUser)
-            .FirstOrDefaultAsync(e => e.Id == id);
+        var user = await _userManager.FindByIdAsync(id);
 
-        if (student is null)
+        if (user is null)
         {
-            throw new Exception($"Could not find {nameof(Student).ToLower()} with id {id}.");
+            throw new Exception($"No user with id {id} could be found.");
         }
+        
+        user.Address = model.Address;
+        user.FirstName = model.FirstName;
+        user.LastName = model.LastName;
+        user.PhoneNumber = model.PhoneNumber;
+        user.Email = model.Email;
+        user.UserName = model.Email;
 
-        student.ApplicationUser!.Address = model.Address;
-        student.ApplicationUser.FirstName = model.FirstName;
-        student.ApplicationUser.LastName = model.LastName;
-        student.ApplicationUser.PhoneNumber = model.PhoneNumber;
-        student.ApplicationUser.Email = model.Email;
-
-        Context.Students.Update(student);
+        await _userManager.UpdateAsync(user);
     }
 
 

@@ -13,8 +13,6 @@ using WestcoastEducation.API.ViewModels.Teacher;
 
 namespace WestcoastEducation.API.Data.DataSeeder;
 
-// TODO: Implement data seeder for students, teachers, courses, studentcourses, and teachercompetencies.
-
 public class DataSeeder
 {
     private readonly ApplicationContext _context;

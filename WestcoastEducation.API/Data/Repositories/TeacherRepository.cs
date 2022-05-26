@@ -11,8 +11,13 @@ namespace WestcoastEducation.API.Data.Repositories;
 public class TeacherRepository : RepositoryBase<Teacher, TeacherViewModel, RegisterUserViewModel, PatchApplicationUserViewModel>,
     ITeacherRepository
 {
-    public TeacherRepository(ApplicationContext context, IMapper mapper) 
-        : base(context, mapper) { }
+    private readonly UserManager<ApplicationUser> _userManager;
+
+    public TeacherRepository(ApplicationContext context, IMapper mapper, UserManager<ApplicationUser> userManager) 
+        : base(context, mapper)
+    {
+        _userManager = userManager;
+    }
     
     public async Task<string> GetIdByApplicationUserIdAsync(string appUserId)
     {
@@ -36,42 +41,40 @@ public class TeacherRepository : RepositoryBase<Teacher, TeacherViewModel, Regis
 
     public override async Task UpdateAsync(string id, RegisterUserViewModel model)
     {
-        var teacher = await Context.Teachers
-            .Include(e => e.ApplicationUser)
-            .FirstOrDefaultAsync(e => e.Id == id);
+        var user = await _userManager.FindByIdAsync(id);
 
-        if (teacher is null)
+        if (user is null)
         {
-            throw new Exception($"No {nameof(Teacher).ToLower()} with id {id} could be found.");
+            throw new Exception($"No user with id {id} could be found.");
         }
         
-        teacher.ApplicationUser!.Address = model.Address;
-        teacher.ApplicationUser.FirstName = model.FirstName;
-        teacher.ApplicationUser.LastName = model.LastName;
-        teacher.ApplicationUser.PhoneNumber = model.PhoneNumber;
-        teacher.ApplicationUser.Email = model.Email;
+        user.Address = model.Address;
+        user.FirstName = model.FirstName;
+        user.LastName = model.LastName;
+        user.PhoneNumber = model.PhoneNumber;
+        user.Email = model.Email;
+        user.UserName = model.Email;
 
-        Context.Teachers.Update(teacher);
+        await _userManager.UpdateAsync(user);
     }
 
     public override async Task UpdateAsync(string id, PatchApplicationUserViewModel model)
     {
-        var teacher = await Context.Teachers
-            .Include(e => e.ApplicationUser)
-            .FirstOrDefaultAsync(e => e.Id == id);
+        var user = await _userManager.FindByIdAsync(id);
 
-        if (teacher is null)
+        if (user is null)
         {
-            throw new Exception($"No {nameof(Teacher).ToLower()} with id {id} could be found.");
+            throw new Exception($"No user with id {id} could be found.");
         }
         
-        teacher.ApplicationUser!.Address = model.Address;
-        teacher.ApplicationUser.FirstName = model.FirstName;
-        teacher.ApplicationUser.LastName = model.LastName;
-        teacher.ApplicationUser.PhoneNumber = model.PhoneNumber;
-        teacher.ApplicationUser.Email = model.Email;
+        user.Address = model.Address;
+        user.FirstName = model.FirstName;
+        user.LastName = model.LastName;
+        user.PhoneNumber = model.PhoneNumber;
+        user.Email = model.Email;
+        user.UserName = model.Email;
 
-        Context.Teachers.Update(teacher);
+        await _userManager.UpdateAsync(user);
     }
     
     public async Task AddCompetencyAsync(TeacherCompetencyViewModel model)

@@ -97,25 +97,11 @@ public class CourseRepository
             throw new Exception($"Could not find {nameof(course).ToLower()} with id {id}.");
         }
 
-        var teacher = await Context.Teachers
-            .Include(e => e.Courses)
-            .FirstOrDefaultAsync(e => e.Id == model.TeacherId);
-
-        var category = await Context.Categories
-            .Include(e => e.Courses)
-            .FirstOrDefaultAsync(e => e.Id == model.CategoryId);
-        
         course.CourseNo = model.CourseNo;
         course.Title = model.Title;
         course.Details = model.Details;
         course.Description = model.Description;
         course.Length = model.Length;
-
-        course.Teacher = teacher
-            ?? throw new Exception($"No {nameof(Teacher).ToLower()} with id {model.TeacherId} could be found.");
-        
-        course.Category = category
-            ?? throw new Exception($"No {nameof(Category).ToLower()} with id {model.CategoryId} could be found.");
         
         Context.Courses.Update(course);
     }
@@ -128,27 +114,13 @@ public class CourseRepository
         {
             throw new Exception($"Could not find {nameof(course).ToLower()}");
         }
-        
-        var teacher = await Context.Teachers
-            .Include(e => e.Courses)
-            .FirstOrDefaultAsync(e => e.Id == model.TeacherId);
 
-        var category = await Context.Categories
-            .Include(e => e.Courses)
-            .FirstOrDefaultAsync(e => e.Id == model.CategoryId);
-        
         course.CourseNo = model.CourseNo;
         course.Title = model.Title;
         course.Details = model.Details;
         course.Description = model.Description;
         course.Length = model.Length;
 
-        course.Teacher = teacher
-            ?? throw new Exception($"No {nameof(Teacher).ToLower()} with id {model.TeacherId} could be found.");
-        
-        course.Category = category
-            ?? throw new Exception($"No {nameof(Category).ToLower()} with id {model.CategoryId} could be found.");
-        
         Context.Courses.Update(course);
     }
 

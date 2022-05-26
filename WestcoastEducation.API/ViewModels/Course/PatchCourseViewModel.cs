@@ -7,6 +7,4 @@ public class PatchCourseViewModel
     public string? Details { get; set; }
     public string? Description { get; set; }
     public string? Length { get; set; }
-    public string? CategoryId { get; set; }
-    public string? TeacherId { get; set; }
 }

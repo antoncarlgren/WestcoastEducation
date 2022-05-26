@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WestcoastEducation.API.Data.Entities;
 using WestcoastEducation.API.Data.Repositories.Interfaces;
+using WestcoastEducation.API.ViewModels.Authorization;
 using WestcoastEducation.API.ViewModels.Teacher;
 
 namespace WestcoastEducation.API.Controllers;
