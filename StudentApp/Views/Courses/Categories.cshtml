@@ -1,0 +1,44 @@
+﻿@using StudentApp.ViewModels
+@model System.Collections.Generic.List<StudentApp.ViewModels.CategoryWithCoursesViewModel>
+
+@{
+    ViewBag.Title = "Courses";
+    Layout = "_Layout";
+}
+
+<h2>Courses</h2>
+
+<article>
+    <section class="category-courses-wrapper">
+        @if (Model is not null)
+        {
+            foreach (var category in Model)
+            {
+                <div class="category-courses-card">
+                    <h4>@category.CategoryName</h4>
+                    <table>
+                        <thead style="display: none;">
+                            <tr>
+                                <td>Title</td>
+                                <td>Number</td>
+                                <td>Length</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var course in category.Courses)
+                            {
+                                <tr>
+                                    <td>@course.Title</td>
+                                    <td>@course.CourseNo</td>
+                                    <td>@course.Length</td>
+                                    <td>@Html.ActionLink("Details", "Details", new { CourseNo = course.CourseNo })</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        }
+    </section>
+</article>

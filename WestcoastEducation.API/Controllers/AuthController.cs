@@ -130,6 +130,7 @@ public class AuthController : Controller
         var userData = new UserViewModel
         {
             UserName = model.UserName,
+            Expires = DateTime.Now.AddDays(7),
             Token = await CreateJwtToken(user)
         };
 

@@ -53,6 +53,18 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("WestcoastEducation", policy =>
+    {
+        policy.AllowAnyHeader();
+        policy.AllowAnyMethod();
+        policy.WithOrigins(
+            "https://127.0.0.1:7258",
+            "http://127.0.0.1:3000");
+    });
+});
+
 builder.Services
     .AddScoped<ICategoryRepository, CategoryRepository>()
     .AddScoped<ICourseRepository, CourseRepository>()
@@ -73,7 +85,10 @@ if (builder.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("WestcoastEducation");
+
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

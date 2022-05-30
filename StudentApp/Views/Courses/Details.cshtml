@@ -1,0 +1,19 @@
+﻿@using StudentApp.ViewModels
+@model StudentApp.ViewModels.CourseViewModel
+
+@{
+    ViewBag.Title = @$"{Model.Title} - {Model.Category}";
+    Layout = "_Layout";
+}
+
+<article>
+    <h1 class="page-title">@Model!.Title</h1>
+    <section class="details-body">
+        <div>@Model!.CourseNo</div>
+        <div>@Model!.Length</div>
+        <div>@Model!.Details</div>
+        <div>@Model.Description</div>
+        <div>@Model!.Teacher</div>
+        <a class="return" asp-action="Categories"><i fa-solid fa-left-long>Return</i></a>
+    </section>
+</article>

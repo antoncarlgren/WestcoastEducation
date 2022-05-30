@@ -39,7 +39,7 @@ public class AutoMapperProfiles : Profile
     {
         CreateMap<PostCourseViewModel, Course>()
             .ForMember(dest => dest.Id, options => options.MapFrom(src => Guid.NewGuid()));
-        
+
         CreateMap<Course, CourseOverviewViewModel>();
 
         CreateMap<Course, CourseViewModel>()
