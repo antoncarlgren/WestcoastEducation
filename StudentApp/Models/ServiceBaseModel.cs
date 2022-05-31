@@ -1,4 +1,9 @@
-﻿using System.Text.Json;
+﻿using System.Net;
+using System.Net.Http.Headers;
+using System.Text.Json;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using NuGet.Packaging.Core;
 
 namespace StudentApp.Models;
@@ -39,7 +44,8 @@ public abstract class ServiceBaseModel
 
     protected async Task<HttpResponseMessage> HttpGetResponseMessageAsync(string url)
     {
-        var client = new HttpClient();
+        using var client = new HttpClient();
+        
         var response = await client.GetAsync(url);
 
         return response.IsSuccessStatusCode
@@ -49,7 +55,12 @@ public abstract class ServiceBaseModel
 
     protected async Task<HttpResponseMessage> HttpPostResponseMessageAsync<TPostModel>(string url, TPostModel model)
     {
-        var client = new HttpClient();
-        return await client.PostAsJsonAsync(url, model);
+        using var client = new HttpClient();
+
+        var response = await client.PostAsJsonAsync(url, model);
+        
+        return response.IsSuccessStatusCode
+            ? response
+            : throw new Exception($"Something went wrong while posting data.");
     }
 }

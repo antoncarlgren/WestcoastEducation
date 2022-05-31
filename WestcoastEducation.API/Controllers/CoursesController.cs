@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WestcoastEducation.API.Data.Entities;
 using WestcoastEducation.API.Data.Repositories.Interfaces;
@@ -8,6 +9,7 @@ using WestcoastEducation.API.ViewModels.Student;
 
 namespace WestcoastEducation.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/v1/courses")]
 public class CoursesController : Controller
@@ -29,12 +31,14 @@ public class CoursesController : Controller
         return Ok(await _courseRepository.GetAllCourseOverviewsAsync());
     }
 
+    [AllowAnonymous]
     [HttpGet("categories")]
     public async Task<ActionResult<List<CategoryWithCoursesViewModel>>> ListCoursesByCategory()
     {
         return Ok(await _courseRepository.GetCategoriesWithCoursesAsync());
     }
     
+    [AllowAnonymous]
     [HttpGet("byid/{id}")]
     public async Task<ActionResult<CourseViewModel>> GetCourseDetailsById(string id)
     {
@@ -48,7 +52,8 @@ public class CoursesController : Controller
         return Ok(response);
     }
 
-    [HttpGet("{courseNo}")]
+    [AllowAnonymous]
+    [HttpGet("{courseNo:int}")]
     public async Task<ActionResult<CourseViewModel>> GetCourseByCourseNo(int courseNo)
     {
         var response = await _courseRepository.GetCourseByCourseNoAsync(courseNo);

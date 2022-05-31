@@ -1,0 +1,28 @@
+﻿@model StudentApp.ViewModels.LoginViewModel
+
+@{
+    ViewBag.Title = "Log in";
+    Layout = "_Layout";
+}
+
+<article>
+    <section class="login-wrapper">
+        @using (Html.BeginForm("Login", "Auth", FormMethod.Post))
+        {
+            <div class="form-container">
+                Email:
+                @Html.TextBoxFor(m => m.UserName)
+                @Html.ValidationMessageFor(m => m.UserName)
+            </div>
+
+            <div class="form-container">
+                Password:
+                @Html.PasswordFor(m => m.Password)
+            </div>
+
+            <div class="form-container">
+                <input type="submit" class="btn btn-login"/>
+            </div> 
+        }
+    </section>
+</article>

@@ -13,6 +13,7 @@ using WestcoastEducation.API.ViewModels.Teacher;
 namespace WestcoastEducation.API.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/v1/auth")]
 public class AuthController : Controller
 {
@@ -39,6 +40,7 @@ public class AuthController : Controller
         _roleManager = roleManager;
     }
     
+    [AllowAnonymous]
     [HttpPost("register")]
     public async Task<ActionResult<UserViewModel>> Register(RegisterUserViewModel model)
     {
@@ -53,6 +55,10 @@ public class AuthController : Controller
             UserName = model.Email.ToLower()
         };
 
+        // Set id of registeruserviewmodel to the generated id,
+        // so that it maps properly to student/teacher entities
+        model.Id = user.Id;
+        
         var result = await _userManager.CreateAsync(user, model.Password);
 
         if (!result.Succeeded)
@@ -110,6 +116,7 @@ public class AuthController : Controller
         }
     }
 
+    [AllowAnonymous]
     [HttpPost("login")]
     public async Task<ActionResult<UserViewModel>> Login(LoginViewModel model)
     {
@@ -178,6 +185,13 @@ public class AuthController : Controller
             return NotFound($"Could not find user with id {id}.");
         }
 
+        var isSignedIn = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
+
+        if (!isSignedIn.Succeeded)
+        {
+            return Unauthorized();
+        }
+        
         try
         {
             var claims = await _userManager.GetClaimsAsync(user);
@@ -216,10 +230,10 @@ public class AuthController : Controller
             return NotFound($"User with id {id} could not be found.");
         }
 
-        await _userManager.RemovePasswordAsync(user);
-        var result = await _userManager.AddPasswordAsync(user, model.Password);
+        var removeResult = await _userManager.RemovePasswordAsync(user);
+        var addResult = await _userManager.AddPasswordAsync(user, model.Password);
 
-        if (!result.Succeeded)
+        if (!removeResult.Succeeded || !addResult.Succeeded)
         {
             return Unauthorized("Could not change password.");
         }

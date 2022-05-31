@@ -22,7 +22,8 @@ public class AutoMapperProfiles : Profile
     private void CreateStudentMaps()
     {
         CreateMap<RegisterUserViewModel, Student>()
-            .ForMember(dest => dest.Id, options => options.MapFrom(src => Guid.NewGuid()));
+            .ForMember(dest => dest.Id, options => options.MapFrom(src => Guid.NewGuid()))
+            .ForMember(dest => dest.ApplicationUserId, options => options.MapFrom(src => src.Id));
         
         CreateMap<Student, StudentViewModel>()
             .ForMember(dest => dest.Email, options => options.MapFrom(src => src.ApplicationUser!.Email))
@@ -60,7 +61,8 @@ public class AutoMapperProfiles : Profile
     private void CreateTeacherMaps()
     {
         CreateMap<RegisterUserViewModel, Teacher>()
-            .ForMember(dest => dest.Id, options => options.MapFrom(src => Guid.NewGuid()));
+            .ForMember(dest => dest.Id, options => options.MapFrom(src => Guid.NewGuid()))
+            .ForMember(dest => dest.ApplicationUserId, options => options.MapFrom(src => src.Id));
         
         CreateMap<Teacher, TeacherViewModel>()
             .ForMember(dest => dest.Email, options => options.MapFrom(src => src.ApplicationUser!.Email))

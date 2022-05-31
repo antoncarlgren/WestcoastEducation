@@ -7,6 +7,7 @@ using WestcoastEducation.API.ViewModels.Student;
 
 namespace WestcoastEducation.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/v1/students")]
 public class StudentController : Controller

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
+using StudentApp.Helpers;
 using StudentApp.Models;
 using StudentApp.ViewModels;
 
@@ -14,19 +17,27 @@ public class AuthController : Controller
         _authServiceModel = new AuthServiceModel(config);
     }
 
+    [HttpGet("register")]
+    public ActionResult Register() => View();
+
+
+    [HttpGet("login")]
+    public ActionResult Login() => View();
+
     [HttpPost("register")]
     public async Task<IActionResult> RegisterUserAsync(RegisterUserViewModel model)
     {
         try
         {
-            var success = await _authServiceModel.RegisterUserAsync(model);
+            var registerResponse = await _authServiceModel.RegisterUserAsync(model);
 
-            if (success)
+            if (registerResponse.Success)
             {
-                return RedirectToAction("Home", "Index", null);
+                return RedirectToAction("", "", null);
             }
 
-            return View("Error");
+            return View("Register", model);
+
         }
         catch (Exception ex)
         {
@@ -40,14 +51,22 @@ public class AuthController : Controller
     {
         try
         {
-            var success = await _authServiceModel.LoginAsync(model);
+            var loginResponse = await _authServiceModel.LoginAsync(model);
 
-            if (success)
+
+            if (Request.Cookies.TryGetValue("token", out _))
             {
-                return RedirectToAction("Home", "Index", null);
+                var token = await this.GetJsonPropertyFromHttpResponseMessage(loginResponse.Message, "token");
+                Response.Cookies.Append("token", token);
+            }
+            
+            
+            if (loginResponse.Success)
+            {
+                return RedirectToAction("", "", null);
             }
 
-            return View("Error");
+            return View("Login", model);
         }
         catch (Exception ex)
         {
