@@ -1,12 +1,7 @@
-﻿using System.Net;
-using System.Net.Http.Headers;
-using System.Text.Json;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using NuGet.Packaging.Core;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Mvc.Diagnostics;
 
-namespace StudentApp.Models;
+namespace AdminApp.Models;
 
 public abstract class ServiceBaseModel
 {
@@ -42,6 +37,20 @@ public abstract class ServiceBaseModel
         return item!;
     }
 
+    protected async Task<HttpResponseMessage> PostItemAsync<TPostModel>(TPostModel model)
+    {
+        var response = await HttpPostResponseMessageAsync(BaseUrl, model);
+
+        if (response.IsSuccessStatusCode)
+        {
+            return response;
+        }
+
+        var reason = await response.Content.ReadAsStringAsync();
+        Console.WriteLine(reason);
+        return response;
+    }
+    
     protected async Task<HttpResponseMessage> HttpGetResponseMessageAsync(string url)
     {
         using var client = new HttpClient();
@@ -50,17 +59,58 @@ public abstract class ServiceBaseModel
 
         return response.IsSuccessStatusCode
             ? response
-            : throw new Exception($"Something went wrong while fetching data.");
+            : throw new Exception("Something went wrong while fetching data.");
     }
-
-    protected async Task<HttpResponseMessage> HttpPostResponseMessageAsync<TPostModel>(string url, TPostModel model)
+    
+    protected async Task<HttpResponseMessage> 
+        HttpPostResponseMessageAsync<TPostModel>(string url, TPostModel model)
     {
         using var client = new HttpClient();
 
         var response = await client.PostAsJsonAsync(url, model);
         
-        return response.IsSuccessStatusCode
-            ? response
-            : throw new Exception($"Something went wrong while posting data.");
+        if (response.IsSuccessStatusCode)
+        {
+            return response;
+        }
+
+        var reason = await response.Content.ReadAsStringAsync();
+        Console.WriteLine(reason);
+        return response;
+    }
+
+    protected async Task<HttpResponseMessage> 
+        HttpPatchResponseMessageAsync<TPostModel>(string url, TPostModel model)
+    {
+        using var client = new HttpClient();
+
+        var content = new StringContent(JsonSerializer.Serialize(model));
+        
+        var response = await client.PatchAsync($"{BaseUrl}/{url}", content);
+
+        if (response.IsSuccessStatusCode)
+        {
+            return response;
+        }
+
+        var reason = await response.Content.ReadAsStringAsync();
+        Console.WriteLine(reason);
+        return response;
+    }
+
+    protected async Task<HttpResponseMessage> HttpDeleteResponseMessageAsync(string id)
+    {
+        using var client = new HttpClient();
+
+        var response = await client.DeleteAsync($"{BaseUrl}/{id}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            return response;
+        }
+
+        var reason = await response.Content.ReadAsStringAsync();
+        Console.WriteLine(reason);
+        return response;
     }
 }

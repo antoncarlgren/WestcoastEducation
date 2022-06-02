@@ -2,6 +2,7 @@
 using WestcoastEducation.API.Data.Entities;
 using WestcoastEducation.API.Data.Repositories.Interfaces;
 using WestcoastEducation.API.ViewModels.Authorization;
+using WestcoastEducation.API.ViewModels.Category;
 using WestcoastEducation.API.ViewModels.Teacher;
 
 namespace WestcoastEducation.API.Controllers;
@@ -21,6 +22,12 @@ public class TeachersController : Controller
     public async Task<ActionResult<List<TeacherViewModel>>> ListTeachers()
     {
         return Ok(await _teacherRepository.GetAllAsync());
+    }
+
+    [HttpGet("categories")]
+    public async Task<ActionResult<List<CategoryWithTeachersViewModel>>> ListTeachersByCategoryAsync()
+    {
+        return Ok(await _teacherRepository.GetCategoriesWithTeachersAsync());
     }
 
     [HttpGet("{id}")]

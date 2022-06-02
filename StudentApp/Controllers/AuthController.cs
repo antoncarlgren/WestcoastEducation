@@ -29,9 +29,10 @@ public class AuthController : Controller
     {
         try
         {
-            var registerResponse = await _authServiceModel.RegisterUserAsync(model);
+            var registerResponse = await _authServiceModel
+                .RegisterUserAsync(model);
 
-            if (registerResponse.Success)
+            if (registerResponse.IsSuccessStatusCode)
             {
                 return RedirectToAction("", "", null);
             }
@@ -42,7 +43,7 @@ public class AuthController : Controller
         catch (Exception ex)
         {
             Console.WriteLine(ex);
-            return View("Error");
+            return View("Register", model);
         }
     }
 
@@ -51,17 +52,17 @@ public class AuthController : Controller
     {
         try
         {
-            var loginResponse = await _authServiceModel.LoginAsync(model);
+            var loginResponse = await _authServiceModel
+                .LoginAsync(model);
 
 
             if (Request.Cookies.TryGetValue("token", out _))
             {
-                var token = await this.GetJsonPropertyFromHttpResponseMessage(loginResponse.Message, "token");
+                var token = await this.GetJsonPropertyFromHttpResponseMessage(loginResponse, "token");
                 Response.Cookies.Append("token", token);
             }
             
-            
-            if (loginResponse.Success)
+            if (loginResponse.IsSuccessStatusCode)
             {
                 return RedirectToAction("", "", null);
             }
@@ -71,7 +72,7 @@ public class AuthController : Controller
         catch (Exception ex)
         {
             Console.WriteLine(ex);
-            return View("Error");
+            return View("Login", model);
         }
     }
 }

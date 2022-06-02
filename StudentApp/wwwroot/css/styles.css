@@ -1,0 +1,243 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,700;1,400;1,700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Nunito';
+}
+
+header {
+  width: 100%;
+}
+
+body {
+  height: calc(100vh - 4rem);
+}
+
+main {
+  width: 75%;
+}
+
+.navbar {
+  position: sticky;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 4rem;
+  font-size: 1.2rem;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--navbar-color);
+  color: var(--navbar-text-color);
+  text-decoration: none;
+}
+
+.navbar ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: inherit;
+}
+
+.navbar .navbar-links {
+  padding: 0;
+  margin-right: 1.2rem;
+  color: inherit;
+  list-style: none;
+}
+
+.navbar li {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: inherit;
+  height: inherit;
+  margin-right: 1.2rem;
+  transition: 0.1s linear;
+}
+
+.nav-link-main {
+  color: inherit;
+}
+
+.nav-link-main:hover {
+  border-bottom: 0.3rem solid var(--navbar-text-color);
+}
+
+a, a:visited, a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+.navbar a, .navbar a:visited, .navbar a:active {
+  user-select: none;
+  line-height: 2.25rem;
+}
+
+.navbar-title {
+  margin-left: 1.2rem;
+}
+
+.navbar-login {
+  padding-left: 1.2rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: inherit;
+  background-color: var(--background-color);
+}
+
+.container div {
+  width: 100%;
+}
+
+.content-wrapper
+{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #F5E0DC;
+  border-radius: 8px;
+  padding: 1.2rem;
+}
+
+.courses-wrapper{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  border-radius: inherit;
+  padding: 0.6rem;
+}
+
+.category-courses-card {
+  margin: 0.6rem;
+  padding: 1.2rem;
+  max-width: calc(50% - 1.2rem);
+  min-width: fit-content;
+  background-color: var(--navbar-color);
+  color: #F5E0DC;
+  border-radius: inherit;
+}
+
+td {
+  padding-right: 1.2rem;
+}
+
+.course-teacher-table, .course-teacher-table tr {
+  min-width: fit-content;
+}
+
+.course-teacher-table thead {
+  display: none;
+}
+
+.course-link {
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 0 #F5E0DC solid;
+  transition: 0.05s linear;
+}
+
+.course-detail-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 0.6rem;
+}
+
+.teacher-title-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: var(--dark-color);
+}
+
+.text-course {
+  padding: 0.6rem;
+  color: var(--dark-color);
+}
+
+.course-link:hover {
+  border-bottom: 0.15rem solid;
+}
+
+.text-primary {
+  color: var(--dark-color);
+}
+
+.btn-return, .btn-return i {
+  color: #F5E0DC;
+}
+
+.btn-return {
+  background-color: var(--navbar-color);
+  color: #F5E0DC !important;
+  border-radius: 8px;
+  margin-top: 1.2rem;
+  padding: 1.2rem;
+  width: fit-content;
+  transition: 0.1s linear;
+}
+
+.btn-return:hover {
+  background-color: #FA5767;
+}
+
+.login-content-wrapper {
+  width: fit-content;
+  justify-self: center !important;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.login-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 0.6rem;
+  padding: 1.2rem;
+  background-color: var(--navbar-color);
+  border-radius: inherit;
+  color: #F5E0DC;
+}
+
+.form-container {
+  width: fit-content;
+  margin-bottom: 1.2rem;
+}
+
+.form-textbox {
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  border: 0;
+  padding: 0.2rem;
+  color: var(--dark-color);
+  background-color: #F5E0DC;
+  border-radius: 4px;
+  font-family: 'Nunito';
+  
+}
+
+.form-textbox:focus, .form-textbox:active {
+  outline: 2px solid var(--dark-color);
+}
+
+.btn-login {
+  cursor: pointer;
+  background-color: #F5E0DC;
+  color: var(--navbar-color);
+  border-radius: 4px;
+  border: none;
+  padding: 0.6rem;
+  transition: 0.1s linear;
+}
+
+.btn-login:hover {
+  color: #F5E0DC;
+  background-color: #FF7583;
+}

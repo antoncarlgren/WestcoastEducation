@@ -1,7 +1,7 @@
 ﻿namespace AdminApp.ViewModels;
 
-public class TeacherCourseViewModel
+public class TeacherCategoryViewModel
 {
     public string? TeacherId { get; set; }
-    public string? CourseId { get; set; }
+    public string? CategoryId { get; set; }
 }

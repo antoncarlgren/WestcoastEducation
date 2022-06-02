@@ -1,4 +1,4 @@
-﻿namespace StudentApp.ViewModels;
+﻿namespace AdminApp.ViewModels;
 
 public class CourseOverviewModel
 {

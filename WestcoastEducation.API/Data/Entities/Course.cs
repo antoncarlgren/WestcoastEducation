@@ -5,7 +5,8 @@ namespace WestcoastEducation.API.Data.Entities;
 
 public class Course : IEntity
 {
-    [Key] public string? Id { get; set; } = Guid.NewGuid().ToString();
+    [Key] 
+    public string? Id { get; set; } = Guid.NewGuid().ToString();
     
     public int? CourseNo { get; set; }
     public string? Title { get; set; }

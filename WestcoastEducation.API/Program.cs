@@ -61,6 +61,7 @@ builder.Services.AddCors(options =>
         policy.AllowAnyMethod();
         policy.WithOrigins(
             "https://127.0.0.1:7258",
+            "https://127.0.0.1:7138",
             "http://127.0.0.1:3000");
     });
 });

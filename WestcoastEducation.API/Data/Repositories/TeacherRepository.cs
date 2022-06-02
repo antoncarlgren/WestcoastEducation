@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using WestcoastEducation.API.Data.Entities;
 using WestcoastEducation.API.Data.Repositories.Interfaces;
 using WestcoastEducation.API.ViewModels.Authorization;
+using WestcoastEducation.API.ViewModels.Category;
 using WestcoastEducation.API.ViewModels.Teacher;
 
 namespace WestcoastEducation.API.Data.Repositories;
@@ -17,6 +18,34 @@ public class TeacherRepository : RepositoryBase<Teacher, TeacherViewModel, Regis
         : base(context, mapper)
     {
         _userManager = userManager;
+    }
+
+    public async Task<List<CategoryWithTeachersViewModel>> GetCategoriesWithTeachersAsync()
+    {
+        // Frankenstein's LINQ query
+        return await Context.Categories
+            .Include(e => e.TeacherCompetencies)
+            .ThenInclude(e => e.Teacher)
+            .ThenInclude(e => e!.ApplicationUser)
+            .Include(e => e.TeacherCompetencies)
+            .ThenInclude(e => e.Teacher)
+            .ThenInclude(e => e!.Courses)
+            .Select(e => new CategoryWithTeachersViewModel
+            {
+                CategoryId = e.Id,
+                CategoryName = e.Name,
+                Teachers = e.TeacherCompetencies
+                    .Select(tc => new TeacherOverviewViewModel
+                    {
+                        Id = tc.TeacherId,
+                        Name = $"{tc.Teacher!.ApplicationUser!.FirstName} {tc.Teacher.ApplicationUser.LastName}",
+                        Email = tc.Teacher.ApplicationUser.Email,
+                        PhoneNumber = tc.Teacher.ApplicationUser.PhoneNumber,
+                        Address = tc.Teacher.ApplicationUser.Address
+                    })
+                    .ToList()
+            })
+            .ToListAsync();
     }
     
     public async Task<string> GetIdByApplicationUserIdAsync(string appUserId)

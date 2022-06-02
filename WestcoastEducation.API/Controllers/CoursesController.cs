@@ -25,22 +25,23 @@ public class CoursesController : Controller
         _studentRepository = studentRepository;
     }
     
+    [AllowAnonymous]
     [HttpGet("list")]
-    public async Task<ActionResult<List<CourseOverviewViewModel>>> ListCourses()
+    public async Task<ActionResult<List<CourseOverviewViewModel>>> ListCoursesAsync()
     {
         return Ok(await _courseRepository.GetAllCourseOverviewsAsync());
     }
 
     [AllowAnonymous]
     [HttpGet("categories")]
-    public async Task<ActionResult<List<CategoryWithCoursesViewModel>>> ListCoursesByCategory()
+    public async Task<ActionResult<List<CategoryWithCoursesViewModel>>> ListCoursesByCategoryAsync()
     {
         return Ok(await _courseRepository.GetCategoriesWithCoursesAsync());
     }
     
     [AllowAnonymous]
     [HttpGet("byid/{id}")]
-    public async Task<ActionResult<CourseViewModel>> GetCourseDetailsById(string id)
+    public async Task<ActionResult<CourseViewModel>> GetCourseDetailsByIdAsync(string id)
     {
         var response = await _courseRepository.GetByIdAsync(id);
 
@@ -54,7 +55,7 @@ public class CoursesController : Controller
 
     [AllowAnonymous]
     [HttpGet("{courseNo:int}")]
-    public async Task<ActionResult<CourseViewModel>> GetCourseByCourseNo(int courseNo)
+    public async Task<ActionResult<CourseViewModel>> GetCourseByCourseNoAsync(int courseNo)
     {
         var response = await _courseRepository.GetCourseByCourseNoAsync(courseNo);
 
@@ -67,7 +68,7 @@ public class CoursesController : Controller
     }
     
     [HttpPost]
-    public async Task<ActionResult> AddCourse(PostCourseViewModel model)
+    public async Task<ActionResult> AddCourseAsync(PostCourseViewModel model)
     {
         try
         {
@@ -87,7 +88,7 @@ public class CoursesController : Controller
     }
     
     [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateCourse(string id, PostCourseViewModel model)
+    public async Task<ActionResult> UpdateCourseAsync(string id, PostCourseViewModel model)
     {
         try
         {
@@ -107,7 +108,7 @@ public class CoursesController : Controller
     }
     
     [HttpPatch("{id}")]
-    public async Task<ActionResult> UpdateCourse(string id, PatchCourseViewModel model)
+    public async Task<ActionResult> UpdateCourseAsync(string id, PatchCourseViewModel model)
     {
         try
         {
@@ -127,7 +128,7 @@ public class CoursesController : Controller
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteCourse(string id)
+    public async Task<ActionResult> DeleteCourseAsync(string id)
     {
         try
         {

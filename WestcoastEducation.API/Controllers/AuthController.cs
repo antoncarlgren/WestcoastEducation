@@ -55,8 +55,7 @@ public class AuthController : Controller
             UserName = model.Email.ToLower()
         };
 
-        // Set id of registeruserviewmodel to the generated id,
-        // so that it maps properly to student/teacher entities
+        // Set id of registeruserviewmodel to the generated id, so that it maps properly to student/teacher entities
         model.Id = user.Id;
         
         var result = await _userManager.CreateAsync(user, model.Password);

@@ -5,6 +5,10 @@
     Layout = "_Layout";
 }
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
+
 <article>
     <section class="login-wrapper">
         @using (Html.BeginForm("Login", "Auth", FormMethod.Post))

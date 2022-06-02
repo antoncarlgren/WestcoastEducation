@@ -1,18 +1,39 @@
-﻿@model TModel
+﻿@model List<AdminApp.ViewModels.TeacherViewModel>
 
 @{
-    Layout = null;
+    ViewBag.Title = "Teachers";
+    Layout = "_Layout";
 }
 
 <!DOCTYPE html>
 
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
-<div>
-      
-</div>
-</body>
-</html>
+<article class="content-wrapper">
+    <section class="teachers-wrapper">
+        <h4 class="teachers-title">Teachers</h4>
+        <table class="teachers-table">
+            <thead>
+            <tr>
+                <td></td>
+                <td>Name</td>
+                <td>Email</td>
+                <td>Phone Number</td>
+                <td>Address</td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+                @foreach (var teacher in Model)
+                {
+                    <tr>
+                        <td><i class="fas fa-edit"></i></td>
+                        <td>@teacher.Name</td>
+                        <td>@teacher.Email</td>
+                        <td>@teacher.PhoneNumber</td>
+                        <td>@teacher.Address</td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+</article>

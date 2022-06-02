@@ -5,44 +5,52 @@
     Layout = "_Layout";
 }
 
-<article>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
+
+<article class="login-content-wrapper content-wrapper">
     <section class="login-wrapper">
         @using (Html.BeginForm("RegisterUser", "Auth", FormMethod.Post))
         {
             <div class="form-container">
-                First Name:
-                @Html.TextBoxFor(m => m.FirstName)
+                <p>First Name:</p>
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-textbox" })
+                @Html.ValidationMessageFor(m => m.FirstName)
             </div>
             
             <div class="form-container">
-                Last Name:
-                @Html.TextBoxFor(m => m.LastName)
+                <p>Last Name:</p>
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-textbox" })
+                @Html.ValidationMessageFor(m => m.LastName)
             </div>
             
             <div class="form-container">
-                Email:
-                @Html.TextBoxFor(m => m.Email)
+                <p>Email:</p>
+                @Html.TextBoxFor(m => m.Email, new { type = "email", @class = "form-textbox" })
                 @Html.ValidationMessageFor(m => m.Email)
             </div>
             
             <div class="form-container">
-                Phone Number:
-                @Html.TextBoxFor(m => m.PhoneNumber)
+                <p>Phone Number:</p>
+                @Html.TextBoxFor(m => m.PhoneNumber, new { type = "number", @class = "form-textbox" })
                 @Html.ValidationMessageFor(m => m.PhoneNumber)
             </div>
             
             <div class="form-container">
-                Address:
-                @Html.TextBoxFor(m => m.Address)
+                <p>Address:</p>
+                @Html.TextBoxFor(m => m.Address, new { @class = "form-textbox" })
+                @Html.ValidationMessageFor(m => m.Address)
             </div>
             
             <div class="form-container">
-                Password:
-                @Html.PasswordFor(m => m.Password)
+               <p>Password:</p>
+                @Html.PasswordFor(m => m.Password, new { @class = "form-textbox" })
+                @Html.ValidationMessageFor(m => m.Password)
             </div>
             
-            <div class="form-container">
-                <input type="submit" class="btn btn-rlogin" />
+            <div>
+                <input type="submit" class="btn-login" value="Submit" />
             </div>
         }
     </section>

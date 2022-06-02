@@ -6,14 +6,20 @@
     Layout = "_Layout";
 }
 
-<article>
-    <h1 class="page-title">@Model!.Title</h1>
-    <section class="details-body">
-        <div>@Model!.CourseNo</div>
-        <div>@Model!.Length</div>
-        <div>@Model!.Details</div>
-        <div>@Model.Description</div>
-        <div>@Model!.Teacher</div>
-        <a class="return" asp-action="Categories"><i fa-solid fa-left-long>Return</i></a>
+<article class="content-wrapper">
+    <div class="teacher-title-container">
+        <h1 class="text-primary">@Model!.Title</h1>
+        <h1 class="text-primary">@Model!.CourseNo</h1>
+    </div>
+    <section class="course-detail-wrapper">
+        <div class="text-course"></div>
+        <div class="text-course">@Model!.Length</div>
+        <div class="text-course">@Model!.Details</div>
+        <div class="text-course">@Model.Description</div>
+        <div class="text-course">@Model!.Teacher</div>
+        <a class="btn-return" asp-action="Categories">
+            <i class="fa-solid fa-left-long"></i>
+            Return
+        </a>
     </section>
 </article>

@@ -1,4 +1,5 @@
 ﻿using WestcoastEducation.API.ViewModels.Authorization;
+using WestcoastEducation.API.ViewModels.Category;
 using WestcoastEducation.API.ViewModels.Teacher;
 
 namespace WestcoastEducation.API.Data.Repositories.Interfaces;
@@ -11,4 +12,5 @@ public interface ITeacherRepository
     Task RemoveCompetencyAsync(TeacherCompetencyViewModel model);
     Task AddCourseAsync(TeacherCourseViewModel model);
     Task RemoveCourseAsync(TeacherCourseViewModel model);
+    Task<List<CategoryWithTeachersViewModel>> GetCategoriesWithTeachersAsync();
 }

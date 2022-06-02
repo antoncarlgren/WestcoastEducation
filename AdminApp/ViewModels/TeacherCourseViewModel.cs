@@ -1,6 +1,7 @@
 ﻿namespace AdminApp.ViewModels;
 
-public class AddToCourseViewModel
+public class TeacherCourseViewModel
 {
-    
+    public string? TeacherId { get; set; }
+    public string? CourseId { get; set; }
 }

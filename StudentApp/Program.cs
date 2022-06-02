@@ -49,11 +49,6 @@ builder.Services
         };
     });
 
-// builder.Services.AddCookiePolicy(_ => new CookieOptions
-// {
-//     HttpOnly = true
-// });
-
 builder.Services
     .AddScoped<AuthController>()
     .AddScoped<CoursesController>();
@@ -75,8 +70,6 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-
 
 app.MapControllerRoute(
     name: "default",
