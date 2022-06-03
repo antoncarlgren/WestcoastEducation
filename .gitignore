@@ -12,6 +12,7 @@
 *.idea
 *.db
 Migrations/
+Clients/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
