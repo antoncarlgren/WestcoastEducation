@@ -13,7 +13,6 @@ using WestcoastEducation.API.ViewModels.Teacher;
 namespace WestcoastEducation.API.Controllers;
 
 [ApiController]
-[Authorize]
 [Route("api/v1/auth")]
 public class AuthController : Controller
 {
@@ -40,7 +39,6 @@ public class AuthController : Controller
         _roleManager = roleManager;
     }
     
-    [AllowAnonymous]
     [HttpPost("register")]
     public async Task<ActionResult<UserViewModel>> Register(RegisterUserViewModel model)
     {
@@ -114,8 +112,7 @@ public class AuthController : Controller
             return StatusCode(500, ex.Message);
         }
     }
-
-    [AllowAnonymous]
+    
     [HttpPost("login")]
     public async Task<ActionResult<UserViewModel>> Login(LoginViewModel model)
     {

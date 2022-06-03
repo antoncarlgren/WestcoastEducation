@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.Diagnostics;
 
 namespace AdminApp.Models;
@@ -80,13 +81,16 @@ public abstract class ServiceBaseModel
     }
 
     protected async Task<HttpResponseMessage> 
-        HttpPatchResponseMessageAsync<TPostModel>(string url, TPostModel model)
+        HttpPatchResponseMessageAsync<TPostModel>(string itemId, TPostModel model)
     {
         using var client = new HttpClient();
-
-        var content = new StringContent(JsonSerializer.Serialize(model));
         
-        var response = await client.PatchAsync($"{BaseUrl}/{url}", content);
+        var content = new StringContent(
+            JsonSerializer.Serialize(model), 
+            Encoding.UTF8, 
+            "application/json");
+        
+        var response = await client.PatchAsync($"{BaseUrl}/{itemId}", content);
 
         if (response.IsSuccessStatusCode)
         {

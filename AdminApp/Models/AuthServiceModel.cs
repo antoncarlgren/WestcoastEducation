@@ -24,7 +24,7 @@ public class AuthServiceModel : ServiceBaseModel
 
     public async Task<HttpResponseMessage> EditUserAsync(string id, PatchUserViewModel model)
     {
-        var response = await HttpPatchResponseMessageAsync($"{BaseUrl}/{id}", model);
+        var response = await HttpPatchResponseMessageAsync($"{id}", model);
 
         if (response.IsSuccessStatusCode)
         {

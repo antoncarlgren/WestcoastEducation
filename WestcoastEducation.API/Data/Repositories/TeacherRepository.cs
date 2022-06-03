@@ -37,7 +37,7 @@ public class TeacherRepository : RepositoryBase<Teacher, TeacherViewModel, Regis
                 Teachers = e.TeacherCompetencies
                     .Select(tc => new TeacherOverviewViewModel
                     {
-                        Id = tc.TeacherId,
+                        AppUserId = tc.Teacher!.ApplicationUserId,
                         Name = $"{tc.Teacher!.ApplicationUser!.FirstName} {tc.Teacher.ApplicationUser.LastName}",
                         Email = tc.Teacher.ApplicationUser.Email,
                         PhoneNumber = tc.Teacher.ApplicationUser.PhoneNumber,
@@ -238,10 +238,10 @@ public class TeacherRepository : RepositoryBase<Teacher, TeacherViewModel, Regis
             throw new Exception($"No {nameof(Teacher).ToLower()} with id {id} could be found.");
         }
 
-        var relatedTeacherCompetencies = Context.TeacherCompetencies
-            .Where(e => e.TeacherId == teacher.Id);
-
-
+        var relatedTeacherCompetencies = await Context.TeacherCompetencies
+            .Where(e => e.TeacherId == teacher.Id)
+            .ToListAsync();
+        
         if (relatedTeacherCompetencies is not null)
         {
             Context.TeacherCompetencies

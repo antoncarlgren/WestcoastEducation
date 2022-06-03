@@ -65,6 +65,7 @@ public class AutoMapperProfiles : Profile
             .ForMember(dest => dest.ApplicationUserId, options => options.MapFrom(src => src.Id));
         
         CreateMap<Teacher, TeacherViewModel>()
+            .ForMember(dest => dest.AppUserId, options => options.MapFrom(src => src.ApplicationUserId))
             .ForMember(dest => dest.Email, options => options.MapFrom(src => src.ApplicationUser!.Email))
             .ForMember(dest => dest.PhoneNumber, options => options.MapFrom(src => src.ApplicationUser!.PhoneNumber))
             .ForMember(dest => dest.Address, options => options.MapFrom(src => src.ApplicationUser!.Address))

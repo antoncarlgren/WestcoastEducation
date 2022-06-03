@@ -22,18 +22,31 @@
             </tr>
             </thead>
             <tbody>
-                @foreach (var teacher in Model)
-                {
-                    <tr>
-                        <td><i class="fas fa-edit"></i></td>
-                        <td>@teacher.Name</td>
-                        <td>@teacher.Email</td>
-                        <td>@teacher.PhoneNumber</td>
-                        <td>@teacher.Address</td>
-                        <td></td>
-                    </tr>
-                }
+            @foreach (var teacher in Model)
+            {
+                <tr>
+                        
+                    <td>
+                        <a  asp-controller="Teachers" asp-action="EditTeacher" asp-route-id="@teacher.AppUserId">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </td>
+                    <td>@teacher.Name</td>
+                    <td>@teacher.Email</td>
+                    <td>@teacher.PhoneNumber</td>
+                    <td>@teacher.Address</td>
+                    <td>
+                        @using(Html.BeginForm("DeleteTeacher", "Teachers", new { id=teacher.AppUserId }, FormMethod.Post))
+                        {
+                            <button type="submit" class="btn-delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        }
+                    </td>
+                </tr>
+            }
             </tbody>
         </table>
+        <partial name="_TeachersFooterPartial"/>
     </section>
 </article>

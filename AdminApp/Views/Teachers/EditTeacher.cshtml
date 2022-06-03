@@ -1,0 +1,53 @@
+﻿@model AdminApp.ViewModels.PatchUserViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
+
+<article class="content-wrapper">
+    <section class="teachers-wrapper">
+        @using (Html.BeginForm("PatchTeacher", "Teachers", FormMethod.Post, new { id=Model.Id, @class="edit-user-wrapper" }))
+            {
+                <div class="form-container">
+                    <p>First Name:</p>
+                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-textbox" })
+                    @Html.ValidationMessageFor(m => m.FirstName)
+                </div>
+            
+                <div class="form-container">
+                    <p>Last Name:</p>
+                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-textbox" })
+                    @Html.ValidationMessageFor(m => m.LastName)
+                </div>
+            
+                <div class="form-container">
+                    <p>Email:</p>
+                    @Html.TextBoxFor(m => m.Email, new { type = "email", @class = "form-textbox" })
+                    @Html.ValidationMessageFor(m => m.Email)
+                </div>
+            
+                <div class="form-container">
+                    <p>Phone Number:</p>
+                    @Html.TextBoxFor(m => m.PhoneNumber, new { type = "number", @class = "form-textbox" })
+                    @Html.ValidationMessageFor(m => m.PhoneNumber)
+                </div>
+            
+                <div class="form-container">
+                    <p>Address:</p>
+                    @Html.TextBoxFor(m => m.Address, new { @class = "form-textbox" })
+                    @Html.ValidationMessageFor(m => m.Address)
+                </div>
+
+                @Html.HiddenFor(m => m.Id)
+                
+                <div>
+                    <input type="submit" class="btn-teachers" value="Submit" />
+                </div>
+            }
+        <partial name="_TeachersFooterPartial"/>
+    </section>
+</article>

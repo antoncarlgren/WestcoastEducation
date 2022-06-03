@@ -19,7 +19,7 @@ public class TeachersController : Controller
     }
     
     [HttpGet("list")]
-    public async Task<ActionResult<List<TeacherViewModel>>> ListTeachers()
+    public async Task<ActionResult<List<TeacherOverviewViewModel>>> ListTeachersAsync()
     {
         return Ok(await _teacherRepository.GetAllAsync());
     }
@@ -27,11 +27,12 @@ public class TeachersController : Controller
     [HttpGet("categories")]
     public async Task<ActionResult<List<CategoryWithTeachersViewModel>>> ListTeachersByCategoryAsync()
     {
-        return Ok(await _teacherRepository.GetCategoriesWithTeachersAsync());
+        var x = await _teacherRepository.GetCategoriesWithTeachersAsync();
+        return Ok(x);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<TeacherViewModel>> GetTeacherById(string id)
+    public async Task<ActionResult<TeacherViewModel>> GetTeacherByIdAsync(string id)
     {
         var response = await _teacherRepository.GetByIdAsync(id);
         
@@ -44,7 +45,7 @@ public class TeachersController : Controller
     }
 
     [HttpPatch("{id}/addcourse")]
-    public async Task<ActionResult> AddTeacherToCourse(string id, TeacherCourseViewModel model)
+    public async Task<ActionResult> AddTeacherToCourseAsync(string id, TeacherCourseViewModel model)
     {
         if (id != model.TeacherId)
         {
@@ -69,7 +70,7 @@ public class TeachersController : Controller
     }
     
     [HttpPatch("{id}/removecourse")]
-    public async Task<ActionResult> RemoveTeacherFromCourse(string id, TeacherCourseViewModel model)
+    public async Task<ActionResult> RemoveTeacherFromCourseAsync(string id, TeacherCourseViewModel model)
     {
         if (id != model.TeacherId)
         {
@@ -94,7 +95,7 @@ public class TeachersController : Controller
     }
     
     [HttpPatch("{id}/addcompentency")]
-    public async Task<ActionResult> AddCompetency(string id, TeacherCompetencyViewModel model)
+    public async Task<ActionResult> AddCompetencyAsync(string id, TeacherCompetencyViewModel model)
     {
         if (id != model.TeacherId)
         {
@@ -119,7 +120,7 @@ public class TeachersController : Controller
     }
     
     [HttpPatch("{id}/removecompetency")]
-    public async Task<ActionResult> RemoveCompentency(string id, TeacherCompetencyViewModel model)
+    public async Task<ActionResult> RemoveCompentencyAsync(string id, TeacherCompetencyViewModel model)
     {
         if (id != model.TeacherId)
         {

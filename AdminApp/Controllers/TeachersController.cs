@@ -5,11 +5,13 @@ using Microsoft.AspNetCore.Server.Kestrel.Transport.Quic;
 
 namespace AdminApp.Controllers;
 
+[Route("[controller]")]
 public class TeachersController : Controller
 {
     private readonly TeacherServiceModel _teacherService;
     private readonly AuthServiceModel _authServiceModel;
 
+    
     public TeachersController(IConfiguration config)
     {
         _teacherService = new(config);
@@ -93,9 +95,16 @@ public class TeachersController : Controller
             return View("Error");
         }
     }
-    
+        
+    // GET: teachers/id/edit
+    [HttpGet("{id}/edit")]
+    public IActionResult EditTeacher(PatchUserViewModel model)
+    {
+        return View(model);
+    }
+
     // PATCH: teachers/id
-    [HttpPatch("{id}")]
+    [HttpPost("{id}")]
     public async Task<IActionResult> PatchTeacher(string id, PatchUserViewModel model)
     {
         try
@@ -108,7 +117,7 @@ public class TeachersController : Controller
                 return View("Teachers", null);
             }
 
-            return View("Edit", model);
+            return View("EditTeacher", model);
         }
         catch (Exception ex)
         {
@@ -116,7 +125,7 @@ public class TeachersController : Controller
             return View("Error");
         }
     }
-    
+
     // PATCH: teachers/addcourse
     [HttpPatch("{id}/addcourse")]
     public async Task<IActionResult> AddCourse(string id, TeacherCourseViewModel model)
@@ -209,8 +218,8 @@ public class TeachersController : Controller
         }
     }
     
-    // DELETE: teachers/id
-    [HttpDelete("{id}")]
+    // DELETE: teachers/id/delete
+    [HttpPost("{id}/delete")]
     public async Task<IActionResult> DeleteTeacher(string id)
     {
         try
@@ -220,9 +229,9 @@ public class TeachersController : Controller
 
             if (response.IsSuccessStatusCode)
             {
-                return View("Teachers", null); 
+                return RedirectToAction("Teachers", "Teachers", null); 
             }
-
+            
             return View("Error");
         }
         catch (Exception ex)

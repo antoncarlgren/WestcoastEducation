@@ -52,11 +52,13 @@ public class ApplicationContext : IdentityDbContext<ApplicationUser>
             
             e.HasOne(c => c.Category)
                 .WithMany(c => c.Courses)
-                .HasForeignKey(c => c.CategoryId);
+                .HasForeignKey(c => c.CategoryId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             e.HasOne(c => c.Teacher)
                 .WithMany(t => t.Courses)
-                .HasForeignKey(c => c.TeacherId);
+                .HasForeignKey(c => c.TeacherId)
+                .OnDelete(DeleteBehavior.SetNull);
         });
 
         builder.Entity<Teacher>(e =>
@@ -64,7 +66,6 @@ public class ApplicationContext : IdentityDbContext<ApplicationUser>
             e.HasOne(t => t.ApplicationUser)
                 .WithOne()
                 .HasForeignKey<Teacher>(t => t.ApplicationUserId);
-            
         });
 
         builder.Entity<Student>(e =>

@@ -1,0 +1,50 @@
+﻿@model List<AdminApp.ViewModels.CategoryWithTeachersViewModel>
+
+@{
+    ViewBag.Title = "Teachers";
+    Layout = "_Layout";
+}
+
+<article class="content-wrapper">
+    <section class="teachers-wrapper">
+        @if (Model is not null)
+        {
+            foreach (var category in Model)
+            {
+                <div class="category-teachers-card">
+                    <h4 class="card-header">@category.CategoryName</h4>
+                    <table class="teachers-table">
+                        <thead>
+                        <tr>
+                            <td></td>
+                            <td>Name</td>
+                            <td>Email</td>
+                            <td>Phone Number</td>
+                            <td></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var teacher in category.Teachers)
+                        {
+                            <tr>
+                                <td></td>
+                                <td>
+                                    @Html.ActionLink(
+                                        @teacher.Name!,
+                                        "Details",
+                                        new { Id = teacher.AppUserId },
+                                        new { @class = "teacher-link" })
+                                </td>
+                                <td>@teacher.Email</td>
+                                <td>@teacher.PhoneNumber</td>
+                                <td></td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        }
+        <partial name="_TeachersFooterPartial"/>
+    </section>
+</article>

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.WebUtilities;
 
 namespace AdminApp.Controllers;
 
+[Route("[controller]")]
 public class CoursesController : Controller
 {
     private readonly CourseServiceModel _courseService;
@@ -55,8 +56,15 @@ public class CoursesController : Controller
     {
         try
         {
-            var response = _courseService
+            var response = await _courseService
                 .PostCourseAsync(model);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return View("Courses", null);
+            }
+
+            return View("PostCourse", null);
         }
         catch (Exception ex)
         {
@@ -76,8 +84,10 @@ public class CoursesController : Controller
 
             if (response.IsSuccessStatusCode)
             {
-                
+                return View("Courses", null);
             }
+
+            return View("EditCourse", null);
         }
         catch (Exception ex)
         {
