@@ -1,0 +1,18 @@
+﻿@model AdminApp.ViewModels.Courses.CourseViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "_Layout";
+}
+
+
+<article class="content-wrapper">
+    <section class="teachers-wrapper">
+        <h4 class="teachers-title">@Model.Title</h4>
+        <p>@Model.Description</p>
+        <p>@Model.Details</p>
+        <p>Length: @Model.Length</p>
+        <p>Teacher: @Model.Teacher</p>
+        <p>Category: @Model.Category</p>
+    </section>
+</article>

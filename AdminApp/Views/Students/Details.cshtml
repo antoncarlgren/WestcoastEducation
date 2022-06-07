@@ -1,0 +1,43 @@
+﻿@using AdminApp.ViewModels
+@using AdminApp.ViewModels.Students
+@model AdminApp.ViewModels.Students.StudentViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "_Layout"; 
+}
+
+<article class="content-wrapper">
+    <section class="teachers-wrapper">
+        <h4 class="teachers-title">@Model.Name</h4>
+        <p>@Model.Email</p>
+        <p>@Model.PhoneNumber</p>
+        <p>@Model.Address</p>
+        <h4 class="teachers-title">Courses</h4>
+        <table class="teachers-table">
+            <thead>
+            <tr class="teachers-table-header">
+                <td>Title</td>
+                <td>CourseNo</td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var course in Model.Courses)
+            {
+                <tr>
+                    <td>@course.Title</td>
+                    <td>@course.CourseNo</td>
+                    <td>
+                        @await Html.PartialAsync("_DeleteStudentCoursePartial", 
+                            new StudentCourseViewModel { StudentId = Model.Id, CourseId = course.Id })
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <a asp-controller="Students" asp-action="AddStudentCourse" asp-route-id="@Model.Id">
+            <i class="fas fa-plus"></i>
+        </a>
+    </section>
+</article>

@@ -38,7 +38,6 @@ public class AuthController : Controller
             }
 
             return View("Register", model);
-
         }
         catch (Exception ex)
         {

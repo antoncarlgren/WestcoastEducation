@@ -29,9 +29,16 @@ public class AutoMapperProfiles : Profile
             .ForMember(dest => dest.Email, options => options.MapFrom(src => src.ApplicationUser!.Email))
             .ForMember(dest => dest.PhoneNumber, options => options.MapFrom(src => src.ApplicationUser!.PhoneNumber))
             .ForMember(dest => dest.Address, options => options.MapFrom(src => src.ApplicationUser!.Address))
+            .ForMember(dest => dest.AppUserId, options => options.MapFrom(src => src.ApplicationUserId))
             .ForMember(dest => dest.Courses, options => options.MapFrom(src =>
                 src.StudentCourses!
-                    .Select(sc => sc.Course!.Title)))
+                    .Select(sc => new CourseOverviewViewModel
+                    {
+                        Id = sc.StudentId,
+                        CourseNo = sc.Course!.CourseNo,
+                        Title = sc.Course.Title,
+                        Length = sc.Course.Length
+                    })))
             .ForMember(dest => dest.Name, options => options.MapFrom(src =>
                 string.Concat(src.ApplicationUser!.FirstName, " ", src.ApplicationUser.LastName)));
     }
@@ -65,15 +72,27 @@ public class AutoMapperProfiles : Profile
             .ForMember(dest => dest.ApplicationUserId, options => options.MapFrom(src => src.Id));
         
         CreateMap<Teacher, TeacherViewModel>()
+            .ForMember(dest => dest.Id, options => options.MapFrom(src => src.Id))
             .ForMember(dest => dest.AppUserId, options => options.MapFrom(src => src.ApplicationUserId))
             .ForMember(dest => dest.Email, options => options.MapFrom(src => src.ApplicationUser!.Email))
             .ForMember(dest => dest.PhoneNumber, options => options.MapFrom(src => src.ApplicationUser!.PhoneNumber))
             .ForMember(dest => dest.Address, options => options.MapFrom(src => src.ApplicationUser!.Address))
             .ForMember(dest => dest.Courses, options => options.MapFrom(src =>
-                src.Courses!.Select(c => c.Title)))
+                src.Courses!
+                    .Select(c => new CourseOverviewViewModel
+                    {
+                        Id = c.Id,
+                        CourseNo = c.CourseNo,
+                        Title = c.Title,
+                        Length = c.Length
+                    })))
             .ForMember(dest => dest.Competencies, options => options.MapFrom(src =>
                 src.TeacherCompetencies!
-                    .Select(tc => tc.Category!.Name)))
+                    .Select(tc => new CategoryViewModel
+                    {
+                        Id = tc.CategoryId,
+                        Name = tc.Category!.Name
+                    })))
             .ForMember(dest => dest.Name, options => options.MapFrom(src =>
                 string.Concat(src.ApplicationUser!.FirstName, " ", src.ApplicationUser.LastName)));
     }

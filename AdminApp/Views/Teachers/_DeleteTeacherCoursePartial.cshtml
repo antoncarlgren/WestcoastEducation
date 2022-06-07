@@ -1,0 +1,10 @@
+﻿@model AdminApp.ViewModels.Teachers.TeacherCourseViewModel
+
+@using(Html.BeginForm("RemoveCourse", "Teachers", new { id=Model.TeacherId }, FormMethod.Post))
+{
+    @Html.HiddenFor(c => Model.CourseId)
+    @Html.HiddenFor(c => Model.TeacherId)
+    <button type="submit" class="btn-delete">
+        <i class="fas fa-trash"></i>
+    </button>
+}

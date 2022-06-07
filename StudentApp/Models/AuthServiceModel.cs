@@ -11,7 +11,7 @@ public class AuthServiceModel : ServiceBaseModel
 
     public async Task<HttpResponseMessage> RegisterUserAsync(RegisterUserViewModel model)
     {
-        var response = await HttpPostResponseMessageAsync($"{BaseUrl}/register", model);
+        var response = await OnPostAsync($"{BaseUrl}/register", model);
 
         if (response.IsSuccessStatusCode)
         {
@@ -25,7 +25,7 @@ public class AuthServiceModel : ServiceBaseModel
 
     public async Task<HttpResponseMessage> LoginAsync(LoginViewModel model)
     {
-        var response = await HttpPostResponseMessageAsync($"{BaseUrl}/login", model);
+        var response = await OnPostAsync($"{BaseUrl}/login", model);
 
         if (response.IsSuccessStatusCode)
         {

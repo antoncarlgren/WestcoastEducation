@@ -7,14 +7,14 @@ namespace AdminApp.Models;
 public abstract class ServiceBaseModel
 {
     protected string BaseUrl { get; }
-    protected IConfiguration Config { get; }
-    protected JsonSerializerOptions Options { get; }
+    private IConfiguration _config { get; }
+    private JsonSerializerOptions _options { get; }
 
     protected ServiceBaseModel(IConfiguration config, string modelUrl)
     {
-        Config = config;
-        BaseUrl = $"{Config.GetValue<string>("baseUrl")}/{modelUrl}";
-        Options = new JsonSerializerOptions
+        _config = config;
+        BaseUrl = $"{_config.GetValue<string>("baseUrl")}/{modelUrl}";
+        _options = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
         };
@@ -22,7 +22,7 @@ public abstract class ServiceBaseModel
 
     protected async Task<List<TViewModel>> GetItemsOfTypeAsync<TViewModel>()
     {
-        var response = await HttpGetResponseMessageAsync($"{BaseUrl}/list");
+        var response = await OnGetAsync($"{BaseUrl}/list");
 
         var items = await response.Content.ReadFromJsonAsync<List<TViewModel>>();
 
@@ -31,7 +31,7 @@ public abstract class ServiceBaseModel
 
     protected virtual async Task<TViewModel> GetByIdAsync<TViewModel>(string id)
     {
-        var response = await HttpGetResponseMessageAsync($"{BaseUrl}/{id}");
+        var response = await OnGetAsync($"{BaseUrl}/{id}");
 
         var item = await response.Content.ReadFromJsonAsync<TViewModel>();
 
@@ -40,7 +40,7 @@ public abstract class ServiceBaseModel
 
     protected async Task<HttpResponseMessage> PostItemAsync<TPostModel>(TPostModel model)
     {
-        var response = await HttpPostResponseMessageAsync(BaseUrl, model);
+        var response = await OnPostAsync(BaseUrl, model);
 
         if (response.IsSuccessStatusCode)
         {
@@ -52,7 +52,7 @@ public abstract class ServiceBaseModel
         return response;
     }
     
-    protected async Task<HttpResponseMessage> HttpGetResponseMessageAsync(string url)
+    protected async Task<HttpResponseMessage> OnGetAsync(string url)
     {
         using var client = new HttpClient();
         
@@ -64,7 +64,7 @@ public abstract class ServiceBaseModel
     }
     
     protected async Task<HttpResponseMessage> 
-        HttpPostResponseMessageAsync<TPostModel>(string url, TPostModel model)
+        OnPostAsync<TPostModel>(string url, TPostModel model)
     {
         using var client = new HttpClient();
 
@@ -81,7 +81,7 @@ public abstract class ServiceBaseModel
     }
 
     protected async Task<HttpResponseMessage> 
-        HttpPatchResponseMessageAsync<TPostModel>(string itemId, TPostModel model)
+        OnPatchAsync<TPostModel>(string urlSuffix, TPostModel model)
     {
         using var client = new HttpClient();
         
@@ -90,7 +90,9 @@ public abstract class ServiceBaseModel
             Encoding.UTF8, 
             "application/json");
         
-        var response = await client.PatchAsync($"{BaseUrl}/{itemId}", content);
+        Console.WriteLine($"{BaseUrl}/{urlSuffix}");
+        
+        var response = await client.PatchAsync($"{BaseUrl}/{urlSuffix}", content);
 
         if (response.IsSuccessStatusCode)
         {
@@ -102,7 +104,7 @@ public abstract class ServiceBaseModel
         return response;
     }
 
-    protected async Task<HttpResponseMessage> HttpDeleteResponseMessageAsync(string id)
+    protected async Task<HttpResponseMessage> OnDeleteAsync(string id)
     {
         using var client = new HttpClient();
 

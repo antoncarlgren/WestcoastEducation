@@ -26,7 +26,7 @@ public abstract class ServiceBaseModel
 
     protected async Task<List<TViewModel>> GetItemsOfTypeAsync<TViewModel>()
     {
-        var response = await HttpGetResponseMessageAsync($"{BaseUrl}/list");
+        var response = await OnGetAsync($"{BaseUrl}/list");
 
         var items = await response.Content.ReadFromJsonAsync<List<TViewModel>>();
 
@@ -35,14 +35,14 @@ public abstract class ServiceBaseModel
 
     protected virtual async Task<TViewModel> GetByIdAsync<TViewModel>(string id)
     {
-        var response = await HttpGetResponseMessageAsync($"{BaseUrl}/{id}");
+        var response = await OnGetAsync($"{BaseUrl}/{id}");
 
         var item = await response.Content.ReadFromJsonAsync<TViewModel>();
 
         return item!;
     }
 
-    protected async Task<HttpResponseMessage> HttpGetResponseMessageAsync(string url)
+    protected async Task<HttpResponseMessage> OnGetAsync(string url)
     {
         using var client = new HttpClient();
         
@@ -53,7 +53,7 @@ public abstract class ServiceBaseModel
             : throw new Exception($"Something went wrong while fetching data.");
     }
 
-    protected async Task<HttpResponseMessage> HttpPostResponseMessageAsync<TPostModel>(string url, TPostModel model)
+    protected async Task<HttpResponseMessage> OnPostAsync<TPostModel>(string url, TPostModel model)
     {
         using var client = new HttpClient();
 

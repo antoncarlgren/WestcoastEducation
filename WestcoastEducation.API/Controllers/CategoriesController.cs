@@ -6,7 +6,6 @@ using WestcoastEducation.API.ViewModels.Category;
 
 namespace WestcoastEducation.API.Controllers;
 
-[Authorize]
 [ApiController]
 [Route("api/v1/categories")]
 public class CategoriesController : Controller

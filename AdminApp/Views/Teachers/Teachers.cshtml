@@ -1,16 +1,14 @@
-﻿@model List<AdminApp.ViewModels.TeacherViewModel>
+﻿@model List<AdminApp.ViewModels.Teachers.TeacherViewModel>
 
 @{
     ViewBag.Title = "Teachers";
     Layout = "_Layout";
 }
 
-<!DOCTYPE html>
-
 <article class="content-wrapper">
-    <section class="teachers-wrapper">
-        <h4 class="teachers-title">Teachers</h4>
-        <table class="teachers-table">
+    <section class="items-wrapper">
+        <h4 class="items-title">Teachers</h4>
+        <table class="items-table">
             <thead>
             <tr>
                 <td></td>
@@ -27,11 +25,15 @@
                 <tr>
                         
                     <td>
-                        <a  asp-controller="Teachers" asp-action="EditTeacher" asp-route-id="@teacher.AppUserId">
+                        <a asp-controller="Teachers" asp-action="EditTeacher" asp-route-id="@teacher.AppUserId">
                             <i class="fas fa-edit"></i>
                         </a>
                     </td>
-                    <td>@teacher.Name</td>
+                    <td>                                    
+                        <a asp-action="Details" asp-route-id="@teacher.Id">
+                            @teacher.Name
+                        </a>
+                    </td>
                     <td>@teacher.Email</td>
                     <td>@teacher.PhoneNumber</td>
                     <td>@teacher.Address</td>

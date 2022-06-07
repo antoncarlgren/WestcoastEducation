@@ -18,24 +18,6 @@ namespace StudentApp.Controllers
             _coursesServiceModel = new CourseServiceModel(config);
         }
         
-        // GET: courses/list
-        [HttpGet("list")]
-        public async Task<IActionResult> Index()
-        {
-            try
-            {
-                var courses = await _coursesServiceModel
-                    .ListCoursesAsync();
-                
-                return View("Index", courses);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return View("Error");
-            }
-        }
-
         // GET: Courses/
         [HttpGet("categories")]
         public async Task<IActionResult> Categories()

@@ -1,6 +1,8 @@
 ﻿using AdminApp.Models;
 using AdminApp.ViewModels;
+using AdminApp.ViewModels.Courses;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace AdminApp.Controllers;
@@ -9,10 +11,14 @@ namespace AdminApp.Controllers;
 public class CoursesController : Controller
 {
     private readonly CourseServiceModel _courseService;
+    private readonly CategoryServiceModel _categoryService;
+    private readonly TeacherServiceModel _teacherService;
 
     public CoursesController(IConfiguration config)
     {
         _courseService = new(config);
+        _categoryService = new(config);
+        _teacherService = new(config);
     }
     // GET: courses/list
     [HttpGet("list")]
@@ -23,7 +29,7 @@ public class CoursesController : Controller
             var courses = await _courseService
                 .ListCoursesAsync();
 
-            return View("Courses");
+            return View("Courses", courses);
         }
         catch (Exception ex)
         {
@@ -32,14 +38,14 @@ public class CoursesController : Controller
         }
     }
     
-    // GET: courses/courseNo
-    [HttpGet("{courseNo:int}")]
-    public async Task<IActionResult> Details(int courseNo)
+    // GET: courses/details
+    [HttpGet("details")]
+    public async Task<IActionResult> Details(CourseViewModel model)
     {
         try
         {
             var course = await _courseService
-                .GetCourseByCourseNoAsync(courseNo);
+                .GetCourseByIdAsync(model.Id);
 
             return View("Details", course);
         }
@@ -49,22 +55,35 @@ public class CoursesController : Controller
             return View("Error");
         }
     }
-    
-    // POST: courses
-    [HttpPost]
-    public async Task<IActionResult> PostCourse(PostCourseViewModel model)
+
+    [HttpGet("create")]
+    public async Task <IActionResult> CreateCourse(AddCourseViewModel model)
     {
         try
         {
-            var response = await _courseService
-                .PostCourseAsync(model);
+            var teachers = await _teacherService
+                .ListTeachersAsync();
 
-            if (response.IsSuccessStatusCode)
-            {
-                return View("Courses", null);
-            }
+            var categories = await _categoryService
+                .ListCategoriesAsync();
 
-            return View("PostCourse", null);
+            model.AvailableTeachers = teachers
+                .Select(t => new SelectListItem
+                {
+                    Text = t.Name,
+                    Value = t.Id
+                })
+                .ToList();
+
+            model.AvailableCategories = categories
+                .Select(c => new SelectListItem
+                {
+                    Text = c.Name,
+                    Value = c.Id
+                })
+                .ToList();
+
+            return View("AddCourse", model);
         }
         catch (Exception ex)
         {
@@ -73,21 +92,69 @@ public class CoursesController : Controller
         }
     }
     
-    // PATCH: courses/courseNo
-    [HttpPatch("{courseNo:int}")]
-    public async Task<IActionResult> UpdateCourse(int courseNo, PatchCourseViewModel model)
+    // POST: courses
+    [HttpPost("create")]
+    public async Task<IActionResult> AddCourse(AddCourseViewModel model)
     {
         try
         {
             var response = await _courseService
-                .UpdateCourseAsync(courseNo, model);
+                .PostCourseAsync(model);
 
             if (response.IsSuccessStatusCode)
             {
-                return View("Courses", null);
+                return RedirectToAction("Courses");
             }
 
-            return View("EditCourse", null);
+            return View("Error");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            return View("Error");
+        }
+    }
+
+    [HttpGet("edit")]
+    public IActionResult EditCourse(PatchCourseViewModel model) => View(model);
+
+    // PATCH: courses
+    [HttpPost("edit")]
+    public async Task<IActionResult> UpdateCourse(PatchCourseViewModel model)
+    {
+        try
+        {
+            var response = await _courseService
+                .UpdateCourseAsync(model.Id!, model);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Courses");
+            }
+
+            return View("EditCourse", model);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            return View("Error");
+        }
+    }
+
+    [HttpPost("{id}/delete")]
+    public async Task<IActionResult> DeleteCourse(string id)
+    {
+        try
+        {
+            var response = await _courseService
+                .DeleteCourseAsync(id);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Courses");
+            }
+            
+            return View("Error");
         }
         catch (Exception ex)
         {

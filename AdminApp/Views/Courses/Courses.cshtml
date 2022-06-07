@@ -1,18 +1,50 @@
-﻿@model List<AdminApp.ViewModels.CourseViewModel>
+﻿@model List<AdminApp.ViewModels.Courses.CourseOverviewModel>
 
 @{
-    Layout = null;
+    ViewBag.Title = "Courses";
+    Layout = "_Layout";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
-<div>
-      
-</div>
-</body>
-</html>
+<article class="content-wrapper">
+    <section class="items-wrapper">
+        <h4 class="items-title">Teachers</h4>
+        <table class="items-table">
+            <thead>
+            <tr>
+                <td></td>
+                <td>Title</td>
+                <td>CourseNo</td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var course in Model)
+            {
+                <tr>
+                        
+                    <td>
+                        <a asp-controller="Courses" asp-action="EditCourse" asp-route-id="@course.Id">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </td>
+                    <td>                                    
+                        <a asp-action="Details" asp-route-id="@course.Id">
+                            @course.Title
+                        </a>
+                    </td>
+                    <td>@course.CourseNo</td>
+                    <td>
+                        @using(Html.BeginForm("DeleteCourse", "Courses", new { id=course.Id }, FormMethod.Post))
+                        {
+                            <button type="submit" class="btn-delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <a asp-action="AddCourse" asp-controller="Courses" class="btn-items">Create new course</a>
+    </section>
+</article>

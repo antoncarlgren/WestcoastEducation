@@ -1,0 +1,60 @@
+﻿@model AdminApp.ViewModels.Auth.RegisterUserViewModel
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "_Layout";
+}
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
+
+<article class="login-content-wrapper content-wrapper">
+    <section class="login-wrapper">
+        @using (Html.BeginForm("RegisterTeacher", "Teachers", FormMethod.Post))
+        {
+            <div class="form-container">
+                <p>First Name:</p>
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-textbox" })
+                @Html.ValidationMessageFor(m => m.FirstName)
+            </div>
+            
+            <div class="form-container">
+                <p>Last Name:</p>
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-textbox" })
+                @Html.ValidationMessageFor(m => m.LastName)
+            </div>
+            
+            <div class="form-container">
+                <p>Email:</p>
+                @Html.TextBoxFor(m => m.Email, new { type = "email", @class = "form-textbox" })
+                @Html.ValidationMessageFor(m => m.Email)
+            </div>
+            
+            <div class="form-container">
+                <p>Phone Number:</p>
+                @Html.TextBoxFor(m => m.PhoneNumber, new { type = "number", @class = "form-textbox" })
+                @Html.ValidationMessageFor(m => m.PhoneNumber)
+            </div>
+            
+            <div class="form-container">
+                <p>Address:</p>
+                @Html.TextBoxFor(m => m.Address, new { @class = "form-textbox" })
+                @Html.ValidationMessageFor(m => m.Address)
+            </div>
+            
+            <div class="form-container">
+               <p>Password:</p>
+                @Html.PasswordFor(m => m.Password, new { @class = "form-textbox" })
+                @Html.ValidationMessageFor(m => m.Password)
+            </div>
+            
+            @Html.HiddenFor(m => m.IsTeacher)
+            
+            <div>
+                <input type="submit" class="btn-items" value="Submit" />
+            </div>
+        }
+        <partial name="_TeachersFooterPartial"/>
+    </section>
+</article>

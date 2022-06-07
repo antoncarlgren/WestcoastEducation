@@ -1,4 +1,4 @@
-﻿@model List<AdminApp.ViewModels.CategoryWithTeachersViewModel>
+﻿@model List<AdminApp.ViewModels.Categories.CategoryWithTeachersViewModel>
 
 @{
     ViewBag.Title = "Teachers";
@@ -6,14 +6,14 @@
 }
 
 <article class="content-wrapper">
-    <section class="teachers-wrapper">
+    <section class="items-wrapper">
         @if (Model is not null)
         {
             foreach (var category in Model)
             {
-                <div class="category-teachers-card">
+                <div>
                     <h4 class="card-header">@category.CategoryName</h4>
-                    <table class="teachers-table">
+                    <table class="items-table">
                         <thead>
                         <tr>
                             <td></td>

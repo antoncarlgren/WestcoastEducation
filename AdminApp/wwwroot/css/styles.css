@@ -104,7 +104,7 @@ a, a:visited, a:active {
   padding: 1.2rem;
 }
 
-.teachers-wrapper{
+.items-wrapper{
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -113,7 +113,7 @@ a, a:visited, a:active {
   color: var(--dark-color);
 }
 
-.category-courses-card {
+.category-items-card {
   margin: 0.6rem;
   padding: 1.2rem;
   max-width: calc(50% - 1.2rem);
@@ -127,14 +127,15 @@ td {
   padding-right: 1.2rem;
 }
 
-.teacher-title-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  color: var(--dark-color);
+.items-title {
+  margin-top: 1.2rem;
 }
 
-.teachers-footer {
+.items-table-header {
+  display: none;
+}
+
+.items-footer {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -154,7 +155,7 @@ td {
   color: var(--dark-color);
 }
 
-.btn-return, .btn-return i, .btn-teachers {
+.btn-return, .btn-return i {
   color: #F5E0DC !important;
 }
 
@@ -168,8 +169,8 @@ td {
   transition: 0.1s linear;
 }
 
-.btn-return:hover, .btn-teachers:hover {
-  background-color: #FA5767;
+.btn-return:hover, .btn-items:hover {
+  background-color: #FA5767 !important;
 }
 
 .btn-delete {
@@ -178,10 +179,9 @@ td {
   cursor: pointer;
 }
 
-
-.btn-teachers {
+.btn-items {
   padding: 0.6rem;
-  background-color: var(--navbar-color);
+  background-color: var(--navbar-color) !important;
   border: none;
   border-radius: 4px;
   min-width: 25%;
@@ -201,7 +201,7 @@ td {
   border: 0;
   padding: 0.2rem;
   color: var(--dark-color);
-  background-color var(--background-color);
+  background-color: var(--background-color);
   border-radius: 4px;
   font-family: 'Nunito';
 }

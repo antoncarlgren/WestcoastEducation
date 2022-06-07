@@ -27,8 +27,7 @@ public class TeachersController : Controller
     [HttpGet("categories")]
     public async Task<ActionResult<List<CategoryWithTeachersViewModel>>> ListTeachersByCategoryAsync()
     {
-        var x = await _teacherRepository.GetCategoriesWithTeachersAsync();
-        return Ok(x);
+        return Ok(await _teacherRepository.GetCategoriesWithTeachersAsync());
     }
 
     [HttpGet("{id}")]
@@ -94,7 +93,7 @@ public class TeachersController : Controller
         }
     }
     
-    [HttpPatch("{id}/addcompentency")]
+    [HttpPatch("{id}/addcompetency")]
     public async Task<ActionResult> AddCompetencyAsync(string id, TeacherCompetencyViewModel model)
     {
         if (id != model.TeacherId)

@@ -1,5 +1,7 @@
 ﻿using AdminApp.Models;
 using AdminApp.ViewModels;
+using AdminApp.ViewModels.Auth;
+using AdminApp.ViewModels.Students;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Diagnostics;
 

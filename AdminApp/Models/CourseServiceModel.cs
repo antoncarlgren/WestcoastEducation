@@ -1,4 +1,5 @@
 ﻿using AdminApp.ViewModels;
+using AdminApp.ViewModels.Courses;
 
 namespace AdminApp.Models;
 
@@ -14,7 +15,7 @@ public class CourseServiceModel : ServiceBaseModel
 
     public async Task<CourseViewModel> GetCourseByCourseNoAsync(int courseNo)
     {
-        var response = await HttpGetResponseMessageAsync($"{BaseUrl}/{courseNo}");
+        var response = await OnGetAsync($"{BaseUrl}/{courseNo}");
 
         var course = await response.Content.ReadFromJsonAsync<CourseViewModel>();
 
@@ -26,25 +27,25 @@ public class CourseServiceModel : ServiceBaseModel
         return await GetByIdAsync<CourseViewModel>(id);
     }
 
-    public async Task<HttpResponseMessage> PostCourseAsync(PostCourseViewModel model)
+    public async Task<HttpResponseMessage> PostCourseAsync(AddCourseViewModel model)
     {
-        return await HttpPostResponseMessageAsync(BaseUrl, model);
+        return await OnPostAsync(BaseUrl, model);
     }
 
-    public async Task<HttpResponseMessage> UpdateCourseAsync(int courseNo, PatchCourseViewModel model)
+    public async Task<HttpResponseMessage> UpdateCourseAsync(string id, PatchCourseViewModel model)
     {
-        return await HttpPatchResponseMessageAsync(courseNo.ToString(), model);
+        return await OnPatchAsync(id, model);
     }
     
     
     public async Task<HttpResponseMessage> DeleteCourseAsync(string id)
     {
-        return await HttpDeleteResponseMessageAsync(id);
+        return await OnDeleteAsync(id);
     }
     
     protected override async Task<TViewModel> GetByIdAsync<TViewModel>(string id)
     {
-        var response = await HttpGetResponseMessageAsync($"{BaseUrl}/byid/{id}");
+        var response = await OnGetAsync($"{BaseUrl}/byid/{id}");
 
         var course = await response.Content.ReadFromJsonAsync<TViewModel>();
 

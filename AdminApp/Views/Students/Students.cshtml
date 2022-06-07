@@ -1,18 +1,53 @@
-﻿@model List<AdminApp.ViewModels.StudentViewModel>
+﻿@model List<AdminApp.ViewModels.Students.StudentViewModel>
 
 @{
-    Layout = null;
+    ViewBag.Title = "Students";
+    Layout = "_Layout";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
-<div>
-      
-</div>
-</body>
-</html>
+<article class="content-wrapper">
+    <section class="items-wrapper">
+        <h4 class="items-title">Teachers</h4>
+        <table class="items-table">
+            <thead>
+            <tr>
+                <td></td>
+                <td>Name</td>
+                <td>Email</td>
+                <td>Phone Number</td>
+                <td>Address</td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var student in Model)
+            {
+                <tr>
+                        
+                    <td>
+                        <a asp-controller="Students" asp-action="EditStudent" asp-route-id="@student.AppUserId">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </td>
+                    <td>                                    
+                        <a asp-action="Details" asp-route-id="@student.Id">
+                            @student.Name
+                        </a>
+                    </td>
+                    <td>@student.Email</td>
+                    <td>@student.PhoneNumber</td>
+                    <td>@student.Address</td>
+                    <td>
+                        @using(Html.BeginForm("DeleteStudent", "Students", new { id=student.AppUserId }, FormMethod.Post))
+                        {
+                            <button type="submit" class="btn-delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </section>
+</article>

@@ -1,0 +1,69 @@
+﻿@using AdminApp.ViewModels
+@using AdminApp.ViewModels.Teachers
+@model AdminApp.ViewModels.Teachers.TeacherViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "_Layout";
+}
+
+<article class="content-wrapper">
+    <section class="teachers-wrapper">
+        <h4 class="teachers-title">@Model.Name</h4>
+        <p>@Model.Email</p>
+        <p>@Model.PhoneNumber</p>
+        <p>@Model.Address</p>
+        <h4 class="teachers-title">Courses</h4>
+        <table class="teachers-table">
+            <thead>
+            <tr class="teachers-table-header">
+                <td>Title</td>
+                <td>CourseNo</td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var course in Model.Courses)
+            {
+                <tr>
+                    <td>@course.Title</td>
+                    <td>@course.CourseNo</td>
+                    <td>
+                        @await Html.PartialAsync("_DeleteTeacherCoursePartial", 
+                            new TeacherCourseViewModel { TeacherId = Model.Id, CourseId = course.Id })
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <a asp-controller="Teachers" asp-action="AddTeacherCourse" asp-route-id="@Model.Id">
+            <i class="fas fa-plus"></i>
+        </a>
+        
+        <h4 class="teachers-title">Competencies</h4>
+        <table class="teachers-table">
+            <thead>
+            <tr class="teachers-table-header">
+                <td>Name</td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var competency in Model.Competencies)
+            {
+                <tr>
+                    <td>@competency.Name</td>
+                    <td>
+                        @await Html.PartialAsync("_DeleteTeacherCategoryPartial", 
+                            new TeacherCategoryViewModel { TeacherId = Model.Id, CategoryId = competency.Id })
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <a asp-controller="Teachers" asp-action="AddTeacherCompetency" asp-route-id="@Model.Id">
+            <i class="fas fa-plus"></i>
+        </a>
+    </section>
+    <partial name="_TeachersFooterPartial"/>
+</article>

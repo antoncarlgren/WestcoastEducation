@@ -15,7 +15,7 @@ public class CourseServiceModel : ServiceBaseModel
 
     public async Task<CourseViewModel> GetCourseByCourseNoAsync(int courseNo)
     {
-        var response = await HttpGetResponseMessageAsync($"{BaseUrl}/{courseNo}");
+        var response = await OnGetAsync($"{BaseUrl}/{courseNo}");
 
         var course = await response.Content.ReadFromJsonAsync<CourseViewModel>();
 
@@ -29,7 +29,7 @@ public class CourseServiceModel : ServiceBaseModel
 
     public async Task<List<CategoryWithCoursesViewModel>> GetCoursesByCategoryAsync()
     {
-        var response = await HttpGetResponseMessageAsync($"{BaseUrl}/categories");
+        var response = await OnGetAsync($"{BaseUrl}/categories");
 
         var categoriesWithCourses = await response.Content
             .ReadFromJsonAsync<List<CategoryWithCoursesViewModel>>();
@@ -39,7 +39,7 @@ public class CourseServiceModel : ServiceBaseModel
 
     protected override async Task<TViewModel> GetByIdAsync<TViewModel>(string id)
     {
-        var response = await HttpGetResponseMessageAsync($"{BaseUrl}/byid/{id}");
+        var response = await OnGetAsync($"{BaseUrl}/byid/{id}");
 
         var course = await response.Content.ReadFromJsonAsync<TViewModel>();
 

@@ -9,7 +9,6 @@ using WestcoastEducation.API.ViewModels.Student;
 
 namespace WestcoastEducation.API.Controllers;
 
-[Authorize]
 [ApiController]
 [Route("api/v1/courses")]
 public class CoursesController : Controller
@@ -25,21 +24,18 @@ public class CoursesController : Controller
         _studentRepository = studentRepository;
     }
     
-    [AllowAnonymous]
     [HttpGet("list")]
     public async Task<ActionResult<List<CourseOverviewViewModel>>> ListCoursesAsync()
     {
         return Ok(await _courseRepository.GetAllCourseOverviewsAsync());
     }
-
-    [AllowAnonymous]
+    
     [HttpGet("categories")]
     public async Task<ActionResult<List<CategoryWithCoursesViewModel>>> ListCoursesByCategoryAsync()
     {
         return Ok(await _courseRepository.GetCategoriesWithCoursesAsync());
     }
     
-    [AllowAnonymous]
     [HttpGet("byid/{id}")]
     public async Task<ActionResult<CourseViewModel>> GetCourseDetailsByIdAsync(string id)
     {
@@ -52,8 +48,7 @@ public class CoursesController : Controller
 
         return Ok(response);
     }
-
-    [AllowAnonymous]
+    
     [HttpGet("{courseNo:int}")]
     public async Task<ActionResult<CourseViewModel>> GetCourseByCourseNoAsync(int courseNo)
     {

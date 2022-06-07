@@ -1,0 +1,10 @@
+﻿@model AdminApp.ViewModels.Teachers.TeacherCategoryViewModel
+
+@using(Html.BeginForm("RemoveCompetency", "Teachers", new { id=Model.TeacherId }, FormMethod.Post))
+{
+    @Html.HiddenFor(c => Model.CategoryId)
+    @Html.HiddenFor(c => Model.TeacherId)
+    <button type="submit" class="btn-delete">
+        <i class="fas fa-trash"></i>
+    </button>
+}

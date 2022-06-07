@@ -1,0 +1,19 @@
+﻿@model AdminApp.ViewModels.Teachers.AddTeacherCategoryViewModel
+
+@{
+    ViewBag.Title = "Add Competency";
+    Layout = "_Layout";
+}
+
+<article class="content-wrapper">
+    <section class="items-wrapper">
+        @using(Html.BeginForm("AddTeacherCompetency", "Teachers", new { id=Model.Teacher!.Id }, FormMethod.Post))
+        {
+            @Html.HiddenFor(m => m.Teacher!.Id)
+            @Html.DropDownListFor(m => m.SelectedCategoryId,
+                Model.AvailableCategories)
+            
+            <input type="submit" class="btn-items" value="Add competency" />
+        }
+    </section>
+</article>

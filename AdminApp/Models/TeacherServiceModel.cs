@@ -1,4 +1,8 @@
-﻿using AdminApp.ViewModels;
+﻿using System.Text;
+using System.Text.Json;
+using AdminApp.ViewModels;
+using AdminApp.ViewModels.Categories;
+using AdminApp.ViewModels.Teachers;
 
 namespace AdminApp.Models;
 
@@ -14,7 +18,7 @@ public class TeacherServiceModel : ServiceBaseModel
 
     public async Task<List<CategoryWithTeachersViewModel>> GetTeachersByCategoryAsync()
     {
-        var response = await HttpGetResponseMessageAsync($"{BaseUrl}/categories");
+        var response = await OnGetAsync($"{BaseUrl}/categories");
 
         var categoriesWithTeachers = await response.Content
             .ReadFromJsonAsync<List<CategoryWithTeachersViewModel>>();
@@ -29,26 +33,26 @@ public class TeacherServiceModel : ServiceBaseModel
     
     public async Task<HttpResponseMessage> AddCourseAsync(string id, TeacherCourseViewModel model)
     {
-        return await HttpPatchResponseMessageAsync($"{id}/addcourse", model);
+        return await OnPatchAsync($"{id}/addcourse", model);
     }
 
     public async Task<HttpResponseMessage> RemoveCourseAsync(string id, TeacherCourseViewModel model)
     {
-        return await HttpPatchResponseMessageAsync($"{id}/removecourse", model);
+        return await OnPatchAsync($"{id}/removecourse", model);
     }
 
     public async Task<HttpResponseMessage> AddCompetencyAsync(string id, TeacherCategoryViewModel model)
     {
-        return await HttpPatchResponseMessageAsync($"{id}/addcompetency", model);
+        return await OnPatchAsync($"{id}/addcompetency", model);
     }
 
     public async Task<HttpResponseMessage> RemoveCompetencyAsync(string id, TeacherCategoryViewModel model)
     {
-        return await HttpPatchResponseMessageAsync($"{id}/removecompetency", model);
+        return await OnPatchAsync($"{id}/removecompetency", model);
     }
     
     public async Task<HttpResponseMessage> DeleteTeacherAsync(string id)
     {
-        return await HttpDeleteResponseMessageAsync(id);
+        return await OnDeleteAsync(id);
     }
 }

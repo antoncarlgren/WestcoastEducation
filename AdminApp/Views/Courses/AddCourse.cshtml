@@ -1,0 +1,66 @@
+﻿@model AdminApp.ViewModels.Courses.AddCourseViewModel
+
+@{
+    ViewBag.Title = "Add Course";
+    Layout = "_Layout";
+}
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
+
+<article class="content-wrapper">
+    <section class="login-wrapper">
+        @using (Html.BeginForm("AddCourse", "Courses", FormMethod.Post))
+        {
+            <div class="form-container">
+                <p>Title:</p>
+                @Html.TextBoxFor(m => m.Title, new { @class = "form-textbox" })
+                @Html.ValidationMessageFor(m => m.Title)
+            </div>
+            
+            <div class="form-container">
+                <p>Course Number:</p>
+                @Html.TextBoxFor(m => m.CourseNo, new { @class = "form-textbox", type="number" })
+                @Html.ValidationMessageFor(m => m.CourseNo)
+            </div>
+            
+            <div class="form-container">
+                <p>Description:</p>
+                @Html.TextBoxFor(m => m.Description, new { @class = "form-textbox" })
+                @Html.ValidationMessageFor(m => m.Description)
+            </div>
+            
+            <div class="form-container">
+                <p>Details:</p>
+                @Html.TextBoxFor(m => m.Details, new { @class = "form-textbox" })
+                @Html.ValidationMessageFor(m => m.Details)
+            </div>
+            
+            <div class="form-container">
+                <p>Length:</p>
+                @Html.TextBoxFor(m => m.Length, new { @class = "form-textbox" })
+                @Html.ValidationMessageFor(m => m.Length)
+            </div>
+
+            <div class="form-container">
+                <p>Teacher:</p>
+                @Html.DropDownListFor(
+                    m => m.TeacherId, 
+                    Model.AvailableTeachers,
+                    new { @class = "form-textbox" })
+            </div>
+            
+            <div class="form-container">
+                <p>Category:</p>
+                @Html.DropDownListFor(
+                    m => m.CategoryId, 
+                    Model.AvailableCategories,
+                    new { @class = "form-textbox" })
+            </div>
+            <div>
+                <input type="submit" class="btn-items" value="Submit" />
+            </div>
+        }
+    </section>
+</article>
