@@ -1,0 +1,19 @@
+﻿@model AdminApp.ViewModels.Students.AddStudentCourseViewModel
+
+@{
+    ViewBag.Title = "Add Course";
+    Layout = "_Layout";
+}
+
+<article class="content-wrapper">
+    <section class="items-wrapper">
+        @using(Html.BeginForm("AddStudentCourse", "Students", new { id=Model.Student!.Id }, FormMethod.Post))
+        {
+            @Html.HiddenFor(m => m.Student!.Id)
+            @Html.DropDownListFor(m => m.SelectedCourseId,
+                Model.AvailableCourses)
+            
+            <input type="submit" class="btn-items" value="Add course" />
+        }
+    </section>
+</article>

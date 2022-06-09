@@ -20,11 +20,11 @@ public class StudentServiceModel : ServiceBaseModel
     
     public async Task<HttpResponseMessage> AddCourseAsync(string id, StudentCourseViewModel model)
     {
-        return await OnPatchAsync($"{id}/addcourse", model);
+        return await OnPatchAsync($"{id}/enroll", model);
     }
 
     public async Task<HttpResponseMessage> RemoveCourseAsync(string id, StudentCourseViewModel model)
     {
-        return await OnPatchAsync($"{id}/removecourse", model);
+        return await OnPatchAsync($"{id}/disenroll", model);
     }
 }
